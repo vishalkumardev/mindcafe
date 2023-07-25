@@ -11,7 +11,11 @@ import {
   TextInput,
   RefreshControl,
 } from 'react-native';
-import {MagnifyingGlassIcon, BellIcon} from 'react-native-heroicons/outline';
+import {
+  MagnifyingGlassIcon,
+  BellIcon,
+  EnvelopeIcon,
+} from 'react-native-heroicons/outline';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
 import {PlusIcon} from 'react-native-heroicons/solid';
@@ -88,7 +92,7 @@ const Home = ({navigation}) => {
           flexDirection: 'row',
           backgroundColor: '#ffffff',
           paddingHorizontal: 8,
-          paddingVertical: 10,
+          paddingVertical: 5,
           justifyContent: 'space-between',
           alignItems: 'center',
           zIndex: 1000,
@@ -101,43 +105,38 @@ const Home = ({navigation}) => {
           />
         </TouchableOpacity>
 
-        <View style={styles.form_container}>
-          <View style={styles.input_container}>
-            <TextInput
-              placeholder="Search...."
-              style={{flex: 1, color: Colors.dark}}
-              placeholderTextColor={Colors.dark}
-              onPressIn={() => navigation.navigate('Search')}
-            />
-            <MagnifyingGlassIcon
-              color="#000"
-              size={24}
-              style={styles.TextInput}
-            />
-          </View>
-        </View>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <TouchableOpacity onPress={() => navigation.navigate('Search')}>
+            <MagnifyingGlassIcon color="#000" size={24} />
+          </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate('Notification')}>
-          <BellIcon color="#000" size={30} />
-          {Notify == undefined ? null : (
-            <View
-              style={{
-                backgroundColor: Colors.primary,
-                width: 20,
-                height: 20,
-                borderRadius: 10,
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-                position: 'absolute',
-                top: -7,
-                right: -2,
-              }}>
-              <Text>{Notify}</Text>
-            </View>
-          )}
-        </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Message')}>
+            <EnvelopeIcon color="#000" size={24} style={styles.TextInput} />
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => navigation.navigate('Notification')}>
+            <BellIcon color="#000" size={24} />
+            {Notify == undefined ? null : (
+              <View
+                style={{
+                  backgroundColor: Colors.primary,
+                  width: 20,
+                  height: 20,
+                  borderRadius: 10,
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  position: 'absolute',
+                  top: -7,
+                  right: -2,
+                }}>
+                <Text>{Notify}</Text>
+              </View>
+            )}
+          </TouchableOpacity>
+        </View>
       </View>
+
       {Loading ? (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <ActivityIndicator color="#121A3A" size={'large'} />
@@ -272,7 +271,7 @@ const styles = StyleSheet.create({
 
   TextInput: {
     width: '100%',
-    marginHorizontal: 12,
+    marginHorizontal: 17,
     fontFamily: 'Poppins-SemiBold',
   },
   btn: {

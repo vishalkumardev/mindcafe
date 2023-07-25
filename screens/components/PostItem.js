@@ -23,6 +23,7 @@ import Global from '../utitiles/Global';
 import {Colors} from '../utitiles/Colors';
 
 const PostItem = ({item, index, userId, PostLike}) => {
+  console.log(item);
   const [PostToggle, setPostToggle] = useState(false);
   const [PostInput, setPostInput] = useState('');
   const [PostId, setPostId] = useState('');
@@ -36,7 +37,6 @@ const PostItem = ({item, index, userId, PostLike}) => {
     setPostId(postId);
   };
 
-  console.log(item);
   const SharePost = async () => {
     const response = await fetch(
       Global.BASE_URL +

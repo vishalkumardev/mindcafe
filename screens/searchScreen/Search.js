@@ -66,7 +66,7 @@ const Search = ({navigation}) => {
                 fontFamily: 'Poppins-Regular',
                 color: Colors.dark,
               }}>
-              No User Found
+              Search User
             </Text>
           </View>
         </View>

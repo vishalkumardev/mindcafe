@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -10,8 +10,7 @@ import {
   Modal,
   ActivityIndicator,
   ScrollView,
-  ImageBackground,
-  Dimensions,
+  TextInput,
 } from 'react-native';
 import {
   ChevronDownIcon,
@@ -25,6 +24,7 @@ import RazorpayCheckout from 'react-native-razorpay';
 import * as Animatable from 'react-native-animatable';
 import Global from '../utitiles/Global';
 import {Colors} from '../utitiles/Colors';
+import {UserAuthContext} from '../UserAuthContext';
 
 const CourseDetails = ({route, navigation}) => {
   const {id, check} = route.params;
@@ -36,6 +36,11 @@ const CourseDetails = ({route, navigation}) => {
   const [User, setUser] = useState([]);
   const [Image_height, setImage_height] = useState(0);
   const [userId, setuserId] = useState('');
+  const [promo, setpromo] = useState('');
+  const [Price, setPrice] = useState('');
+  const [Apply, setApply] = useState(false);
+
+  const {UserType} = useContext(UserAuthContext);
 
   const getUserData = async () => {
     const user = await AsyncStorage.getItem('Userid');
@@ -55,6 +60,7 @@ const CourseDetails = ({route, navigation}) => {
     const data = await response.json();
     setloading(false);
     setCourses(data.response);
+    setPrice(data.response.price);
     setData(data.response.content);
     setLoading(false);
   };
@@ -95,6 +101,17 @@ const CourseDetails = ({route, navigation}) => {
       });
   };
 
+  const validateCoupon = async () => {
+    const response = await fetch(
+      Global.BASE_URL + `validateCoupon&coupon=${promo}`,
+    );
+    const data = await response.json();
+    if (data.response.status == 1) {
+      const {couponValue} = data.response;
+      setPrice((Price / 100) * couponValue);
+      setApply(true);
+    }
+  };
   useEffect(() => {
     getUserData();
   }, []);
@@ -320,24 +337,79 @@ const CourseDetails = ({route, navigation}) => {
               </TouchableOpacity>
             </View>
           ) : (
-            <View style={{flexDirection: 'row'}}>
-              <TouchableOpacity
-                style={styles.btn_about}
-                onPress={() => setLoading(true)}>
-                <Text style={styles.btn_text}>About Instructor</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.btn_buy}
-                onPress={checkoutHandler}>
-                <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                  <Text style={styles.btn_text}>Buy Now</Text>
-                  {Courses.price == undefined ? null : (
-                    <Text style={styles.btn_text}>
-                      {' @ ₹ ' + Courses.price}
+            <View>
+              {UserType == 'employee' ? (
+                <View
+                  style={{
+                    backgroundColor: Colors.light,
+                    borderTopLeftRadius: 15,
+                    borderTopRightRadius: 15,
+                    paddingHorizontal: 15,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                  }}>
+                  <TextInput
+                    placeholder="Enter promo Code"
+                    value={promo}
+                    onChangeText={setpromo}
+                    placeholderTextColor={Colors.dark}
+                    editable={Apply ? false : true}
+                    style={{
+                      width: '65%',
+                      borderColor: 'gray',
+                      borderWidth: 0.2,
+                      paddingHorizontal: 15,
+                      marginVertical: 12,
+                      borderRadius: 2,
+                      paddingVertical: 5,
+                    }}
+                  />
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: Colors.secondary,
+                      paddingHorizontal: 25,
+                      borderRadius: 5,
+                      paddingVertical: 10,
+                    }}
+                    onPress={
+                      Apply
+                        ? () => {
+                            setApply(false);
+                            setPrice(Courses.price);
+                            setpromo('');
+                          }
+                        : validateCoupon
+                    }>
+                    <Text
+                      style={{
+                        fontSize: 13,
+                        color: Colors.light,
+                        marginHorizontal: 15,
+                      }}>
+                      {Apply ? 'Remove' : 'Apply'}
                     </Text>
-                  )}
+                  </TouchableOpacity>
                 </View>
-              </TouchableOpacity>
+              ) : null}
+              <View style={{flexDirection: 'row'}}>
+                <TouchableOpacity
+                  style={styles.btn_about}
+                  onPress={() => setLoading(true)}>
+                  <Text style={styles.btn_text}>About Instructor</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.btn_buy}
+                  onPress={checkoutHandler}>
+                  <View
+                    style={{flexDirection: 'row', justifyContent: 'center'}}>
+                    <Text style={styles.btn_text}>Buy Now</Text>
+                    {Courses.price == undefined ? null : (
+                      <Text style={styles.btn_text}>{' @ ₹ ' + Price}</Text>
+                    )}
+                  </View>
+                </TouchableOpacity>
+              </View>
             </View>
           )}
         </View>

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {
   View,
   StyleSheet,
@@ -15,16 +15,19 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Global from './utitiles/Global';
 import {Colors} from './utitiles/Colors';
 import OneSignal from 'react-native-onesignal';
+import {UserAuthContext} from './UserAuthContext';
 
 const Login = ({navigation}) => {
   const [Email, setEmail] = useState('');
   const [Password, setPassword] = useState('');
   const [Loading, setLoading] = useState(false);
+  const {getUser} = useContext(UserAuthContext);
 
   const Resend = async phone => {
     const response = await fetch(Global.BASE_URL + `resendOtp&phone=${phone}`);
 
     const data = await response.json();
+
     if (data.response.status == 1) {
       navigation.navigate('Otp', {
         phone: phone,
@@ -43,19 +46,20 @@ const Login = ({navigation}) => {
     } else {
       setLoading(true);
       const device = await OneSignal.getDeviceState();
-
       const player_id = device.userId;
-      console.log(player_id);
       const response = await fetch(
         Global.BASE_URL +
           `login&email=${Email}&password=${Password}&deviceId=${player_id}`,
       );
       const data = await response.json();
+      console.log(data);
       setLoading(false);
       if (data.response.status === 1) {
         if (data.response.otpVerify == 1) {
           AsyncStorage.setItem('Userid', data.response.userId);
           AsyncStorage.setItem('UserName', data.response.name);
+          AsyncStorage.setItem('type', data.response.type);
+          getUser();
           navigation.navigate('Main');
         } else {
           Alert.alert('Your Mobile has not been Verified');

@@ -18,10 +18,9 @@ import {
   UserIcon,
   PhoneIcon,
 } from 'react-native-heroicons/solid';
-import {getUniqueId} from 'react-native-device-info';
 import {Colors} from './utitiles/Colors';
 import Global from './utitiles/Global';
-const {height} = Dimensions.get('window');
+import OneSignal from 'react-native-onesignal';
 
 const Signup = ({navigation}) => {
   const [Email, setEmail] = useState('');
@@ -43,10 +42,12 @@ const Signup = ({navigation}) => {
       Alert.alert('Password Should contain 6 characters');
     } else {
       setLoading(true);
-      const deviceId = await getUniqueId();
+      const device = await OneSignal.getDeviceState();
+
+      const player_id = device.userId;
       const response = await fetch(
         Global.BASE_URL +
-          `createAccount&name=${Name}&email=${Email}&phone=${MobileNumber}&password=${Password}&deviceId=${deviceId}`,
+          `createAccount&name=${Name}&email=${Email}&phone=${MobileNumber}&password=${Password}&deviceId=${player_id}`,
       );
       const data = await response.json();
       setLoading(false);

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useContext} from 'react';
 import {View, StyleSheet, BackHandler, Alert} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {
@@ -7,14 +7,18 @@ import {
   BookOpenIcon,
   HomeIcon,
   AcademicCapIcon,
+  ShieldCheckIcon,
 } from 'react-native-heroicons/solid';
 import Profile from './Profile';
 import Home from './Home';
 import Message from './Message';
 import Qualification from './Qualification';
 import MindStack from './Mindtreat/MindStack';
+import TherapyStack from './TherapyStack';
+import {UserAuthContext} from './UserAuthContext';
 
 const Main = () => {
+  const {UserType} = useContext(UserAuthContext);
   const Tab = createBottomTabNavigator();
   return (
     <>
@@ -34,14 +38,20 @@ const Main = () => {
             tabBarIcon: ({color}) => <HomeIcon color={color} size={26} />,
           }}
         />
-        <Tab.Screen
-          name="Message"
-          component={Message}
-          options={{
-            headerShown: false,
-            tabBarIcon: ({color}) => <EnvelopeIcon color={color} size={24} />,
-          }}
-        />
+        {UserType == 'employee' ? (
+          <Tab.Screen
+            name="TherapyStack"
+            component={TherapyStack}
+            options={{
+              tabBarLabel: 'Therapy',
+              headerShown: false,
+              tabBarIcon: ({color}) => (
+                <ShieldCheckIcon color={color} size={24} />
+              ),
+            }}
+          />
+        ) : null}
+
         <Tab.Screen
           name="Mind Treats"
           component={MindStack}

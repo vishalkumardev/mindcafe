@@ -24,6 +24,8 @@ import Main from './screens/Main';
 import Social from './screens/Social';
 import EditPost from './screens/EditPost';
 import Otp from './screens/Otp';
+import Message from './screens/Message';
+import {UserAuthContextProvider} from './screens/UserAuthContext';
 
 export default function App() {
   useEffect(() => {
@@ -45,122 +47,129 @@ export default function App() {
 
   const Stack = createNativeStackNavigator();
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Splash"
-        screenOptions={{
-          headerTitleStyle: {
-            fontFamily: 'Poppins-SemiBold',
-            fontSize: 16,
-          },
-        }}>
-        <Stack.Screen
-          name="Splash"
-          component={Splash}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="Onboarding"
-          component={Onboarding}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="Otp"
-          component={Otp}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="Signup"
-          component={Signup}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="EditPost"
-          component={EditPost}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="Login"
-          component={Login}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="Search"
-          component={Search}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="UserProfile"
-          component={UserProfile}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="Main"
-          component={Main}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="Notification"
-          component={Notification}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen name="Social" component={Social} />
-        <Stack.Screen
-          name="CourseDetails"
-          component={CourseDetails}
-          options={({route}) => ({
-            title: route.params.name,
+    <UserAuthContextProvider>
+      <NavigationContainer>
+        <Stack.Navigator
+          initialRouteName="Splash"
+          screenOptions={{
             headerTitleStyle: {
-              fontSize: 14,
-              fontWeight: '600',
-            },
-          })}
-        />
-        <Stack.Screen
-          name="ExpertDetails"
-          component={ExpertDetails}
-          options={({route}) => ({
-            title: route.params.name,
-            headerTitleAlign: 'center',
-            headerTitleStyle: {
-              fontSize: 18,
-              fontWeight: '600',
-            },
-          })}
-        />
-        <Stack.Screen name="Comments" component={Comment} />
-        <Stack.Screen
-          name="Success"
-          component={Success}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="Failure"
-          component={Failure}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="CreatePost"
-          component={CreatePost}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="Chatscreen"
-          component={Chatscreen}
-          options={({route}) => ({
-            title: route.params.name,
-            headerTitleAlign: 'center',
-            headerTitleStyle: {
+              fontFamily: 'Poppins-SemiBold',
               fontSize: 16,
-              fontWeight: '400',
             },
-          })}
-        />
-        <Stack.Screen name="Sessions" component={Sessions} />
-        <Stack.Screen name="Content" component={Content} />
-        <Stack.Screen name="Quiz" component={Quiz} />
-        <Stack.Screen name="Video" component={Video} />
-      </Stack.Navigator>
-    </NavigationContainer>
+          }}>
+          <Stack.Screen
+            name="Splash"
+            component={Splash}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="Onboarding"
+            component={Onboarding}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="Otp"
+            component={Otp}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="Signup"
+            component={Signup}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="EditPost"
+            component={EditPost}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="Search"
+            component={Search}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="UserProfile"
+            component={UserProfile}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="Main"
+            component={Main}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="Notification"
+            component={Notification}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen name="Social" component={Social} />
+          <Stack.Screen
+            name="CourseDetails"
+            component={CourseDetails}
+            options={({route}) => ({
+              title: route.params.name,
+              headerTitleStyle: {
+                fontSize: 14,
+                fontWeight: '600',
+              },
+            })}
+          />
+          <Stack.Screen
+            name="ExpertDetails"
+            component={ExpertDetails}
+            options={({route}) => ({
+              title: route.params.name,
+              headerTitleAlign: 'center',
+              headerTitleStyle: {
+                fontSize: 18,
+                fontWeight: '600',
+              },
+            })}
+          />
+          <Stack.Screen name="Comments" component={Comment} />
+          <Stack.Screen
+            name="Success"
+            component={Success}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="Failure"
+            component={Failure}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="CreatePost"
+            component={CreatePost}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="Chatscreen"
+            component={Chatscreen}
+            options={({route}) => ({
+              title: route.params.name,
+              headerTitleAlign: 'center',
+              headerTitleStyle: {
+                fontSize: 16,
+                fontWeight: '400',
+              },
+            })}
+          />
+          <Stack.Screen
+            name="Message"
+            component={Message}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen name="Sessions" component={Sessions} />
+          <Stack.Screen name="Content" component={Content} />
+          <Stack.Screen name="Quiz" component={Quiz} />
+          <Stack.Screen name="Video" component={Video} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </UserAuthContextProvider>
   );
 }
