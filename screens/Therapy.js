@@ -106,6 +106,7 @@ const Therapy = ({navigation}) => {
           showsVerticalScrollIndicator={false}
           data={Appointment}
           renderItem={({item, index}) => {
+            console.log(item);
             return (
               <View
                 style={{
@@ -159,7 +160,7 @@ const Therapy = ({navigation}) => {
                     </Text>
                   </TouchableOpacity>
                 ) : null}
-                {item.status == 'completed' ? (
+                {item.status == 'completed' && item.feedback == 0 ? (
                   <TouchableOpacity
                     style={{
                       marginTop: 10,

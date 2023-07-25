@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
+  ScrollView,
 } from 'react-native';
 import React, {useState} from 'react';
 import {Colors} from './utitiles/Colors';
@@ -65,7 +66,9 @@ const Feedback = ({navigation, route}) => {
         <Text style={styles.text}>Feedback</Text>
       </View>
 
-      <View style={{width: '90%', alignSelf: 'center', marginVertical: 20}}>
+      <ScrollView
+        style={{width: '90%', alignSelf: 'center', marginTop: 20}}
+        showsVerticalScrollIndicator={false}>
         <View>
           <Text style={styles.Labeltext}>
             Share your Experience with Our Psychologist
@@ -157,7 +160,7 @@ const Feedback = ({navigation, route}) => {
           style={{
             backgroundColor: Colors.secondary,
             paddingVertical: 15,
-            marginVertical: 50,
+            marginVertical: 10,
             borderRadius: 5,
           }}
           onPress={BookAppointment}>
@@ -165,7 +168,7 @@ const Feedback = ({navigation, route}) => {
             Submit Feedback
           </Text>
         </TouchableOpacity>
-      </View>
+      </ScrollView>
     </View>
   );
 };
@@ -178,7 +181,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Regular',
     color: Colors.dark,
     marginHorizontal: 5,
-    marginVertical: 5,
   },
   text: {
     fontSize: 13,

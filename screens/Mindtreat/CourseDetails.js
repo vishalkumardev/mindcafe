@@ -11,6 +11,7 @@ import {
   ActivityIndicator,
   ScrollView,
   TextInput,
+  ToastAndroid,
 } from 'react-native';
 import {
   ChevronDownIcon,
@@ -71,7 +72,7 @@ const CourseDetails = ({route, navigation}) => {
       image: 'https://mindcafe.app/img/Mindcafe.png',
       currency: 'INR',
       key: 'rzp_test_vPSMoCqdsSvIel',
-      amount: Courses.price * 100,
+      amount: Price * 100,
       name: 'MindCafe',
       order_id: '',
       prefill: {
@@ -90,7 +91,7 @@ const CourseDetails = ({route, navigation}) => {
         const parsedData = await response.json();
         if (parsedData.response.status == 1) {
           navigation.navigate('Success', {
-            price: Courses.price,
+            price: Price,
           });
         }
       })
@@ -110,6 +111,8 @@ const CourseDetails = ({route, navigation}) => {
       const {couponValue} = data.response;
       setPrice((Price / 100) * couponValue);
       setApply(true);
+    } else {
+      ToastAndroid.show(`${data.response.message}`, ToastAndroid.SHORT);
     }
   };
   useEffect(() => {
@@ -363,6 +366,7 @@ const CourseDetails = ({route, navigation}) => {
                       marginVertical: 12,
                       borderRadius: 2,
                       paddingVertical: 5,
+                      color: Colors.dark,
                     }}
                   />
                   <TouchableOpacity
