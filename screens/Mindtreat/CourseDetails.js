@@ -71,7 +71,7 @@ const CourseDetails = ({route, navigation}) => {
       description: 'THE PATHWAY TO PEACE!',
       image: 'https://mindcafe.app/img/Mindcafe.png',
       currency: 'INR',
-      key: 'rzp_test_vPSMoCqdsSvIel',
+      key: 'rzp_live_EXuwaKLzhhTeA5',
       amount: Price * 100,
       name: 'MindCafe',
       order_id: '',
@@ -109,7 +109,7 @@ const CourseDetails = ({route, navigation}) => {
     const data = await response.json();
     if (data.response.status == 1) {
       const {couponValue} = data.response;
-      setPrice((Price / 100) * couponValue);
+      setPrice(Price - (Price / 100) * couponValue);
       setApply(true);
     } else {
       ToastAndroid.show(`${data.response.message}`, ToastAndroid.SHORT);
@@ -358,6 +358,7 @@ const CourseDetails = ({route, navigation}) => {
                     onChangeText={setpromo}
                     placeholderTextColor={Colors.dark}
                     editable={Apply ? false : true}
+                    autoCapitalize={'characters'}
                     style={{
                       width: '65%',
                       borderColor: 'gray',
