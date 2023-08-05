@@ -1,6 +1,6 @@
 {
   "name": "Mindcafe",
-  "version": "0.0.1",
+  "version": "2.0",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -16,6 +16,7 @@
     "@react-navigation/material-top-tabs": "^6.6.2",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
+    "axios": "^1.4.0",
     "react": "18.2.0",
     "react-native": "0.71.3",
     "react-native-animatable": "^1.3.3",

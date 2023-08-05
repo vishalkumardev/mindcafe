@@ -31,24 +31,24 @@ const DateandTime = ({navigation, route}) => {
   const [userId, setuserId] = useState('');
   const [selectedIndex, setselectedIndex] = useState(100);
 
-  const [Slot, setSlot] = useState([
-    {timeSlot: '10:00am  -  10:30am'},
-    {timeSlot: '10:30am  -  11:00am'},
-    {timeSlot: '11:00am  -  11:30am'},
-    {timeSlot: '11:30am  -  12:00pm'},
-    {timeSlot: '12:00pm  -  12:30pm'},
-    {timeSlot: '12:30pm  -  1:00pm'},
-    {timeSlot: '1:00pm  -  1:30pm'},
-    {timeSlot: '1:30pm  -  2:00pm'},
-    {timeSlot: '3:00pm  -  3:30pm'},
-    {timeSlot: '3:30pm  -  4:00pm'},
-    {timeSlot: '4:00pm  -  4:30pm'},
-    {timeSlot: '4:30pm  -  5:00pm'},
-    {timeSlot: '5:00pm  -  5:30pm'},
-    {timeSlot: '5:30pm  -  6:00pm'},
-    {timeSlot: '6:00pm  -  6:30pm'},
-    {timeSlot: '6:30pm  -  7:00pm'},
-  ]);
+  // const [Slot, setSlot] = useState([
+  //   {timeSlot: '10:00am  -  10:30am'},
+  //   {timeSlot: '10:30am  -  11:00am'},
+  //   {timeSlot: '11:00am  -  11:30am'},
+  //   {timeSlot: '11:30am  -  12:00pm'},
+  //   {timeSlot: '12:00pm  -  12:30pm'},
+  //   {timeSlot: '12:30pm  -  1:00pm'},
+  //   {timeSlot: '1:00pm  -  1:30pm'},
+  //   {timeSlot: '1:30pm  -  2:00pm'},
+  //   {timeSlot: '3:00pm  -  3:30pm'},
+  //   {timeSlot: '3:30pm  -  4:00pm'},
+  //   {timeSlot: '4:00pm  -  4:30pm'},
+  //   {timeSlot: '4:30pm  -  5:00pm'},
+  //   {timeSlot: '5:00pm  -  5:30pm'},
+  //   {timeSlot: '5:30pm  -  6:00pm'},
+  //   {timeSlot: '6:00pm  -  6:30pm'},
+  //   {timeSlot: '6:30pm  -  7:00pm'},
+  // ]);
 
   const checkDate = date => {
     const ans = Data.find(data => {
@@ -58,12 +58,12 @@ const DateandTime = ({navigation, route}) => {
       Alert.alert('Slots are not Available');
     } else {
       if (ans.type == 'full_day') {
-        setTimeslot(Slot);
+        Alert.alert('Slots are unavailable due to Holiday');
       } else {
         setTimeslot(ans.timeSlot);
+        setSelected(date);
+        setopen(false);
       }
-      setSelected(date);
-      setopen(false);
     }
   };
 
@@ -72,6 +72,7 @@ const DateandTime = ({navigation, route}) => {
       Global.BASE_URL + `calendar&psychologistId=${psychologistId}`,
     );
     const data = await response.json();
+    console.log(data.response);
     setData(data.response);
   };
 

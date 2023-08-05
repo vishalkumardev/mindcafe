@@ -18,12 +18,15 @@ import {
   ShareIcon,
   XMarkIcon,
 } from 'react-native-heroicons/outline';
-import {EllipsisVerticalIcon, LinkIcon} from 'react-native-heroicons/solid';
+import {
+  ArrowUturnRightIcon,
+  EllipsisVerticalIcon,
+  LinkIcon,
+} from 'react-native-heroicons/solid';
 import Global from '../utitiles/Global';
 import {Colors} from '../utitiles/Colors';
 
 const PostItem = ({item, index, userId, PostLike}) => {
-  console.log(item);
   const [PostToggle, setPostToggle] = useState(false);
   const [PostInput, setPostInput] = useState('');
   const [PostId, setPostId] = useState('');
@@ -216,7 +219,13 @@ const PostItem = ({item, index, userId, PostLike}) => {
           {Data.shared == 'yes' ? null : (
             <TouchableOpacity
               onPress={() => SharePostToogle(Data.content, Data.postId)}>
-              <ShareIcon color="#97667c" size={19} style={{marginLeft: 10}} />
+              <ArrowUturnRightIcon
+                color="#97667c"
+                size={19}
+                style={{
+                  marginLeft: 10,
+                }}
+              />
             </TouchableOpacity>
           )}
           <TouchableOpacity

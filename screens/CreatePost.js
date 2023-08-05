@@ -16,6 +16,7 @@ import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import RNFetchBlob from 'rn-fetch-blob';
 import Global from './utitiles/Global';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import axios from 'axios';
 
 const CreatePost = ({navigation}) => {
   const [Data, setData] = useState([]);
@@ -67,42 +68,71 @@ const CreatePost = ({navigation}) => {
     },
   ]);
 
-  const Post = async () => {
-    if (Input.length < 1) {
-      Alert.alert('Please type Content ! ');
-    } else {
-      RNFetchBlob.fetch(
-        'POST',
-        'https://mindcafe.app/webservice/postMessage.php',
-        {
-          Authorization: 'Bearer access-token',
-          otherHeader: 'foo',
-          'Content-Type': 'multipart/form-data',
-        },
-        [
-          {
-            name: 'image',
-            filename: 'image.jpg',
-            type: 'image/jpg',
-            data: RNFetchBlob.wrap(Url),
-          },
-          {name: 'type', data: type},
-          {name: 'content', data: String(Input)},
-          {name: 'userId', data: userId},
-        ],
-      )
-        .then(async resp => {
-          const data = await resp.json();
-          if (data.response.status == 1) {
-            Alert.alert('Post Upload Successfully');
-            navigation.navigate('Home');
-          }
-        })
-        .catch(err => {
-          Alert.alert('Something went wrong ');
-        });
-      navigation.goBack();
-    }
+  // const Post = async () => {
+  //   if (Input.length < 1) {
+  //     Alert.alert('Please type Content ! ');
+  //   } else {
+  //     RNFetchBlob.fetch(
+  //       'POST',
+  //       'https://mindcafe.app/webservice/postMessage.php',
+  //       {
+  //         Authorization: 'Bearer access-token',
+  //         otherHeader: 'foo',
+  //         'Content-Type': 'multipart/form-data',
+  //       },
+  //       [
+  //         {
+  //           name: 'image',
+  //           filename: 'image.jpg',
+  //           type: 'image/jpg',
+  //           data: RNFetchBlob.wrap(Url),
+  //         },
+  //         {name: 'type', data: type},
+  //         {name: 'content', data: String(Input)},
+  //         {name: 'userId', data: userId},
+  //       ],
+  //     ).then(async resp => {
+  //       console.log(await resp.json());
+  //       const data = await resp.json();
+  //       if (data.response.status == 1) {
+  //         Alert.alert('Post Upload Successfully');
+  //         navigation.navigate('Home');
+  //       }
+  //     });
+  //     console.catch(err => {
+  //       Alert.alert('Something went wrong ');
+  //     });
+  //     navigation.goBack();
+  //   }
+  // };
+
+  const Post = async e => {
+    e.preventDefault();
+    var bodyFormData = new FormData();
+    bodyFormData.append('type', type);
+    bodyFormData.append('content', Input);
+    bodyFormData.append('userId', userId);
+    bodyFormData.append('image', {
+      uri: Url,
+      type: 'image/jpeg',
+      name: 'my_image.jpg',
+    });
+    axios({
+      method: 'post',
+      url: `https://mindcafe.app/webservice/postMessage.php`,
+      data: bodyFormData,
+      headers: {'Content-Type': 'multipart/form-data'},
+    })
+      .then(function (response) {
+        if (response.data.response.status == 1) {
+          Alert.alert('Post Upload Successfully');
+          navigation.navigate('Home');
+        }
+      })
+      .catch(function (response) {
+        //handle error
+        console.log(response);
+      });
   };
 
   const ImagePicker = async () => {

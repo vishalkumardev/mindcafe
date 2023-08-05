@@ -95,7 +95,7 @@ const Message = ({navigation}) => {
             fontFamily: 'Poppins-Regular',
             color: Colors.dark,
           }}>
-          {item.time} ago
+          {item.time}
         </Text>
       </TouchableOpacity>
     );

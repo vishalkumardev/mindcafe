@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect} from 'react';
+import React, {useState, useContext} from 'react';
 import {
   View,
   StyleSheet,
@@ -17,59 +17,26 @@ import {Colors} from './utitiles/Colors';
 import OneSignal from 'react-native-onesignal';
 import {UserAuthContext} from './UserAuthContext';
 
-const Login = ({navigation}) => {
+const Forgot = ({navigation}) => {
   const [Email, setEmail] = useState('');
-  const [Password, setPassword] = useState('');
   const [Loading, setLoading] = useState(false);
-  const {getUser} = useContext(UserAuthContext);
-
-  const Resend = async phone => {
-    const response = await fetch(Global.BASE_URL + `resendOtp&phone=${phone}`);
-
-    const data = await response.json();
-
-    if (data.response.status == 1) {
-      navigation.navigate('Otp', {
-        phone: phone,
-        otp: data.response.otp,
-      });
-    }
-  };
 
   const handleLogin = async e => {
     var validRegex = /\S+@\S+\.\S+/;
     e.preventDefault();
-    if (Password.length <= 5) {
-      Alert.alert('Password Should be minimum 6 Character');
-    } else if (!Email.match(validRegex)) {
+    if (!Email.match(validRegex)) {
       Alert.alert('Please Enter Valid Email Id');
     } else {
       setLoading(true);
-      const device = await OneSignal.getDeviceState();
-      const player_id = device.userId;
       const response = await fetch(
-        Global.BASE_URL +
-          `login&email=${Email}&password=${Password}&deviceId=${player_id}`,
+        `https://www.mindcafe.app/forgetPasswordApi.php?email=${Email}`,
       );
       const data = await response.json();
+      Alert.alert(data.response.message);
+      navigation.navigate('Login');
       setLoading(false);
-      if (data.response.status === 1) {
-        if (data.response.otpVerify == 1) {
-          AsyncStorage.setItem('Userid', data.response.userId);
-          AsyncStorage.setItem('UserName', data.response.name);
-          AsyncStorage.setItem('type', data.response.type);
-          getUser();
-          navigation.navigate('Main');
-        } else {
-          Alert.alert('Your Mobile has not been Verified');
-          Resend(data.response.phone);
-        }
-      } else {
-        Alert.alert('User Not Registered');
-      }
     }
   };
-
   return (
     <View style={styles.Container}>
       <Modal animationType="slide" transparent={true} visible={Loading}>
@@ -97,35 +64,11 @@ const Login = ({navigation}) => {
             placeholderTextColor={Colors.dark}
           />
         </View>
-        <View style={styles.input_container}>
-          <LockClosedIcon color="#121A3A" size={24} style={styles.TextInput} />
-          <TextInput
-            placeholder="Enter your password"
-            keyboardType="default"
-            secureTextEntry
-            onChangeText={setPassword}
-            value={Password}
-            style={{flex: 1, color: Colors.dark}}
-            placeholderTextColor={Colors.dark}
-          />
-        </View>
-        <Text
-          style={[styles.heading_4, {textAlign: 'right', marginTop: 5}]}
-          onPress={() => navigation.navigate('Forgot')}>
-          Forgot Password ?
-        </Text>
+
         <View style={{marginVertical: '8%'}}>
           <TouchableOpacity style={styles.btn} onPress={handleLogin}>
-            <Text style={styles.btn_text}>Login</Text>
+            <Text style={styles.btn_text}> Send Reset Link</Text>
           </TouchableOpacity>
-          <View style={styles.text_container}>
-            <Text style={styles.heading_3}>Don't have an Account ? </Text>
-            <Text
-              style={styles.heading_4}
-              onPress={() => navigation.navigate('Signup')}>
-              Register
-            </Text>
-          </View>
         </View>
       </View>
     </View>
@@ -136,7 +79,7 @@ const styles = StyleSheet.create({
   Container: {
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'space-around',
+    justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#FAEDE4',
   },
@@ -204,4 +147,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+export default Forgot;

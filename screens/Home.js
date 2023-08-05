@@ -4,12 +4,9 @@ import {
   StyleSheet,
   ActivityIndicator,
   FlatList,
-  Alert,
   BackHandler,
   Image,
   TouchableOpacity,
-  TextInput,
-  RefreshControl,
 } from 'react-native';
 import {
   MagnifyingGlassIcon,
@@ -29,7 +26,6 @@ const Home = ({navigation}) => {
   const [id, setid] = useState(0);
   const [Loading, setLoading] = useState(false);
   const [Notify, setNotify] = useState(0);
-  const Navigation = useNavigation();
 
   const getPost = async () => {
     const user = await AsyncStorage.getItem('Userid');
@@ -38,7 +34,7 @@ const Home = ({navigation}) => {
     const response = await fetch(Global.BASE_URL + `happenings&userId=${user}`);
     const data = await response.json();
     setData(data.response);
-    setNotify(data.response.notification);
+    setNotify(data.notification);
     setLoading(false);
   };
 
@@ -71,16 +67,11 @@ const Home = ({navigation}) => {
     getPost();
   }, []);
 
+  const Navigation = useNavigation();
   useEffect(() => {
     const unsuscribe = Navigation.addListener('beforeRemove', e => {
       e.preventDefault();
-      Alert.alert('Alert!', 'Are you Want to exit this app ?', [
-        {
-          text: 'Cancel',
-          style: 'cancel',
-        },
-        {text: 'OK', onPress: () => BackHandler.exitApp()},
-      ]);
+      BackHandler.exitApp();
     });
     return unsuscribe;
   }, [Navigation]);
@@ -116,7 +107,7 @@ const Home = ({navigation}) => {
 
           <TouchableOpacity onPress={() => navigation.navigate('Notification')}>
             <BellIcon color="#000" size={24} />
-            {Notify == undefined ? null : (
+            {Notify == 0 ? null : (
               <View
                 style={{
                   backgroundColor: Colors.primary,

@@ -26,6 +26,8 @@ import EditPost from './screens/EditPost';
 import Otp from './screens/Otp';
 import Message from './screens/Message';
 import {UserAuthContextProvider} from './screens/UserAuthContext';
+import ProgressReport from './screens/ProgressReport';
+import Forgot from './screens/Forgot';
 
 export default function App() {
   useEffect(() => {
@@ -88,6 +90,11 @@ export default function App() {
             options={{headerShown: false}}
           />
           <Stack.Screen
+            name="ProgressReport"
+            component={ProgressReport}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
             name="Search"
             component={Search}
             options={{headerShown: false}}
@@ -103,11 +110,20 @@ export default function App() {
             options={{headerShown: false}}
           />
           <Stack.Screen
+            name="Forgot"
+            component={Forgot}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
             name="Notification"
             component={Notification}
             options={{headerShown: false}}
           />
-          <Stack.Screen name="Social" component={Social} />
+          <Stack.Screen
+            name="Social"
+            component={Social}
+            options={{title: 'Profile'}}
+          />
           <Stack.Screen
             name="CourseDetails"
             component={CourseDetails}

@@ -40,6 +40,7 @@ const CourseDetails = ({route, navigation}) => {
   const [promo, setpromo] = useState('');
   const [Price, setPrice] = useState('');
   const [Apply, setApply] = useState(false);
+  const [Suscribe, setSuscribe] = useState(false);
 
   const {UserType} = useContext(UserAuthContext);
 
@@ -49,16 +50,19 @@ const CourseDetails = ({route, navigation}) => {
     const response = await fetch(Global.BASE_URL + `myProfiles&userId=${user}`);
     const data = await response.json();
     setUser(data.response);
-    getData();
+    getData(user);
     return true;
   };
 
-  const getData = async () => {
+  const getData = async user => {
     setloading(true);
     const response = await fetch(
-      Global.BASE_URL + `courseDetail&programId=${id}&userId=${userId}`,
+      Global.BASE_URL + `courseDetail&programId=${id}&userId=${user}`,
     );
     const data = await response.json();
+    if (data.response.checkSubscribed == true) {
+      setSuscribe(true);
+    }
     setloading(false);
     setCourses(data.response);
     setPrice(data.response.price);
@@ -102,6 +106,20 @@ const CourseDetails = ({route, navigation}) => {
       });
   };
 
+  const BuyCourse = async () => {
+    const response = await fetch(
+      Global.BASE_URL +
+        `placeOrder&userId=${userId}&programId=${
+          Courses.program_id
+        }&txn=${'123123'}&amount=${0}`,
+    );
+    const parsedData = await response.json();
+    if (parsedData.response.status == 1) {
+      navigation.navigate('Success', {
+        price: Price,
+      });
+    }
+  };
   const validateCoupon = async () => {
     const response = await fetch(
       Global.BASE_URL + `validateCoupon&coupon=${promo}`,
@@ -109,7 +127,7 @@ const CourseDetails = ({route, navigation}) => {
     const data = await response.json();
     if (data.response.status == 1) {
       const {couponValue} = data.response;
-      setPrice(Price - (Price / 100) * couponValue);
+      setPrice(Math.round(Price - (Price / 100) * couponValue));
       setApply(true);
     } else {
       ToastAndroid.show(`${data.response.message}`, ToastAndroid.SHORT);
@@ -137,7 +155,7 @@ const CourseDetails = ({route, navigation}) => {
         <View style={{flex: 1}}>
           <Text
             style={{
-              fontSize: 16,
+              fontSize: 14,
               fontWeight: '600',
               fontFamily: 'Poppins-Medium',
               color: Colors.dark,
@@ -146,15 +164,15 @@ const CourseDetails = ({route, navigation}) => {
           </Text>
           <Text
             style={{
-              fontSize: 14,
-              fontWeight: '600',
+              fontSize: 12,
+              fontWeight: '400',
               fontFamily: 'Poppins-Medium',
               color: Colors.dark,
             }}>
             {item.title}
           </Text>
         </View>
-        {check == true ? null : <LockClosedIcon color="#97667C" size={24} />}
+        {Suscribe == true ? null : <LockClosedIcon color="#97667C" size={24} />}
       </View>
     );
   };
@@ -198,6 +216,7 @@ const CourseDetails = ({route, navigation}) => {
                       content: Courses.expertDesc,
                       img: Courses.expertPhoto,
                     });
+                    setLoading(false);
                   }}>
                   <Text
                     style={{
@@ -258,7 +277,7 @@ const CourseDetails = ({route, navigation}) => {
           <View style={styles.box_icon}>
             <View style={styles.icon_box}>
               <BookOpenIcon color="#000" size={30} />
-              <Text style={styles.icon_text}>{Courses.lesson} lessions</Text>
+              <Text style={styles.icon_text}>{Courses.lesson} Lessons</Text>
             </View>
             <View style={styles.icon_box}>
               <ListBulletIcon color="#000" size={30} />
@@ -325,9 +344,10 @@ const CourseDetails = ({route, navigation}) => {
           )}
         </ScrollView>
       )}
-      {Data == null ? null : (
+
+      {loading ? null : (
         <View>
-          {check == true ? (
+          {Suscribe == true ? (
             <View>
               <TouchableOpacity
                 style={{
@@ -405,7 +425,7 @@ const CourseDetails = ({route, navigation}) => {
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.btn_buy}
-                  onPress={checkoutHandler}>
+                  onPress={Price == 0 ? BuyCourse : checkoutHandler}>
                   <View
                     style={{flexDirection: 'row', justifyContent: 'center'}}>
                     <Text style={styles.btn_text}>Buy Now</Text>

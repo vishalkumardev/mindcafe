@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {
+  ArrowLeftOnRectangleIcon,
   BuildingStorefrontIcon,
   ChevronRightIcon,
   PencilSquareIcon,
@@ -37,6 +38,9 @@ const Social = ({navigation}) => {
     setLoading(false);
   };
 
+  // const LogOut = () => {
+  //   navigation.navigate('Login');
+  // };
   useEffect(() => {
     getUserProfile();
   }, []);
@@ -192,9 +196,7 @@ const Social = ({navigation}) => {
                 justifyContent: 'space-between',
                 alignItems: 'center',
               }}
-              onPress={() =>
-                Linking.openURL('https://mindcafe.app/corporate.php')
-              }>
+              onPress={() => Linking.openURL('https://business.mindcafe.app')}>
               <View style={{flexDirection: 'row', alignItems: 'center'}}>
                 <BuildingStorefrontIcon color={Colors.primary} size={30} />
                 <Text
@@ -210,32 +212,32 @@ const Social = ({navigation}) => {
               <ChevronRightIcon color={Colors.secondary} size={18} />
             </TouchableOpacity>
           </View>
-
           {/* 
-      <TouchableOpacity
-        style={{
-          backgroundColor: '#97667c',
-          paddingVertical:15,
-          borderRadius: 5,
-          marginVertical: 10,
-          width: '40%',
-          alignSelf: 'center',
-          marginTop: 20,
-          flexDirection: 'row',
-          justifyContent: 'space-evenly',
-        }}
-        onPress={LogOut}>
-        <ArrowLeftOnRectangleIcon color="#fff" size={24} />
-        <Text
-          style={{
-            textAlign: 'center',
-            fontSize:14,
-            fontFamily: 'Poppins-Regular',
-            color: '#fff',
-          }}>
-          Logout
-        </Text>
-      </TouchableOpacity> */}
+          <TouchableOpacity
+            style={{
+              backgroundColor: '#97667c',
+              paddingVertical: 10,
+              borderRadius: 5,
+              marginVertical: 10,
+              width: '37%',
+              alignSelf: 'center',
+              marginTop: 20,
+              flexDirection: 'row',
+              justifyContent: 'center',
+            }}
+            onPress={LogOut}>
+            <ArrowLeftOnRectangleIcon color="#fff" size={24} />
+            <Text
+              style={{
+                textAlign: 'center',
+                fontSize: 14,
+                marginHorizontal: 10,
+                fontFamily: 'Poppins-Regular',
+                color: '#fff',
+              }}>
+              Logout
+            </Text>
+          </TouchableOpacity> */}
         </View>
       )}
       <View

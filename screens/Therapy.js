@@ -12,6 +12,7 @@ import {Colors} from './utitiles/Colors';
 import Global from './utitiles/Global';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useIsFocused} from '@react-navigation/native';
+import {DocumentArrowDownIcon} from 'react-native-heroicons/outline';
 
 const Therapy = ({navigation}) => {
   const isFocused = useIsFocused();
@@ -20,6 +21,7 @@ const Therapy = ({navigation}) => {
   const [Appointment, setAppointment] = useState([]);
   const [User, setUser] = useState('');
   const [isValid, setisValid] = useState(true);
+  const [feedback, setfeedback] = useState(false);
 
   const getData = async Id => {
     const response = await fetch(
@@ -30,12 +32,14 @@ const Therapy = ({navigation}) => {
     setAppointment(data.response);
     if (data.response !== null) {
       data.response.map(value => {
+        console.log(value.status, value.feedback);
         if (value.status == 'pending') {
           setisValid(false);
         }
+        if (value.feedback === 0 && value.status == 'completed') {
+          setfeedback(true);
+        }
       });
-    } else {
-      isValid(true);
     }
   };
   const bookAppointment = () => {
@@ -43,6 +47,8 @@ const Therapy = ({navigation}) => {
       navigation.navigate('Booking', {
         psychologistId: Data.psychologistId,
       });
+    } else if (feedback == true) {
+      Alert.alert('Please Submit Appointment Feedback');
     } else {
       Alert.alert('Slot Already Pending');
     }
@@ -52,6 +58,8 @@ const Therapy = ({navigation}) => {
     AsyncStorage.getItem('Userid').then(value => {
       setUser(value);
       getData(value);
+      setisValid(true);
+      setfeedback(false);
     });
   }, [isFocused]);
 
@@ -69,6 +77,7 @@ const Therapy = ({navigation}) => {
           position: 'absolute',
           bottom: 0,
           right: 0,
+          zIndex: 10,
         }}>
         <Text style={styles.text}>Coupon Code : {Data.couponCode}</Text>
         <Text style={styles.text}>Discount : {Data.couponValue}</Text>
@@ -105,8 +114,33 @@ const Therapy = ({navigation}) => {
         <FlatList
           showsVerticalScrollIndicator={false}
           data={Appointment}
+          ListEmptyComponent={
+            <View
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: 500,
+              }}>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: Colors.primary,
+                  paddingHorizontal: 10,
+                  paddingVertical: 5,
+                  borderRadius: 5,
+                }}
+                onPress={bookAppointment}>
+                <Text style={{fontSize: 14, color: Colors.light}}>
+                  Book Appointment
+                </Text>
+              </TouchableOpacity>
+
+              <Text style={[styles.text, {marginTop: 20}]}>
+                Book your First Appointment Today
+              </Text>
+            </View>
+          }
           renderItem={({item, index}) => {
-            console.log(item);
             return (
               <View
                 style={{
@@ -117,7 +151,8 @@ const Therapy = ({navigation}) => {
                   padding: 16,
                   borderRadius: 8,
                   paddingVertical: 20,
-                  marginVertical: 10,
+                  marginVertical: 5,
+                  marginBottom: Appointment.length == index + 1 ? 130 : 0,
                 }}>
                 <Text style={styles.text}>
                   Appointment Date : {item.appointmentDate}
@@ -125,6 +160,18 @@ const Therapy = ({navigation}) => {
                 <Text style={styles.text}>
                   Appointment Time : {item.appointmentTime}
                 </Text>
+                {item.status == 'completed' ? (
+                  <TouchableOpacity
+                    style={{position: 'absolute', bottom: 10, right: 10}}
+                    onPress={() =>
+                      navigation.navigate(`ProgressReport`, {
+                        url: item.progressReport,
+                      })
+                    }>
+                    <DocumentArrowDownIcon color={Colors.secondary} size={20} />
+                  </TouchableOpacity>
+                ) : null}
+
                 <Text
                   style={{
                     position: 'absolute',

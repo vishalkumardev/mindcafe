@@ -125,8 +125,8 @@ const Qualification = ({navigation}) => {
               paddingHorizontal: 10,
               fontFamily: 'Poppins-Regular',
             }}>
-            "Transform your health and well-being with the help of our team of
-            experienced health experts."
+            ' Transform your health and well-being with the help of our team of
+            experienced health experts. '
           </Text>
         </ImageBackground>
         {Loading ? (

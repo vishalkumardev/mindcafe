@@ -81,6 +81,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     textAlign: 'justify',
     color: Colors.dark,
+    marginBottom: 50,
   },
 });
 

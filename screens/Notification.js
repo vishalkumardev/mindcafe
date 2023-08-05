@@ -23,6 +23,7 @@ const Notification = ({navigation}) => {
     );
     const data = await response.json();
     setData(data.response);
+    console.log(data);
     await fetch(Global.BASE_URL + `updateNotification&userId=${user}`);
     setLoading(false);
   };

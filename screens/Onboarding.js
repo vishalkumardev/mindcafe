@@ -1,3 +1,4 @@
+import {useNavigation} from '@react-navigation/native';
 import React, {useEffect} from 'react';
 import {
   View,
@@ -10,19 +11,14 @@ import {
 } from 'react-native';
 
 const Onboarding = ({navigation}) => {
+  const Navigation = useNavigation();
   useEffect(() => {
-    const unsuscribe = navigation.addListener('beforeRemove', e => {
+    const unsuscribe = Navigation.addListener('beforeRemove', e => {
       e.preventDefault();
-      Alert.alert('Alert!', 'Are you Want to exit this app ?', [
-        {
-          text: 'Cancel',
-          style: 'cancel',
-        },
-        {text: 'OK', onPress: () => BackHandler.exitApp()},
-      ]);
+      BackHandler.exitApp();
     });
     return unsuscribe;
-  }, [navigation]);
+  }, [Navigation]);
 
   return (
     <View style={styles.Container}>
