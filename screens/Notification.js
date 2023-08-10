@@ -8,7 +8,13 @@ import {
   ActivityIndicator,
   TouchableOpacity,
 } from 'react-native';
-import {XMarkIcon} from 'react-native-heroicons/solid';
+import {
+  ChatBubbleOvalLeftIcon,
+  HeartIcon,
+  UserCircleIcon,
+  UserPlusIcon,
+  XMarkIcon,
+} from 'react-native-heroicons/solid';
 import Global from './utitiles/Global';
 import {Colors} from './utitiles/Colors';
 
@@ -97,14 +103,28 @@ const Notification = ({navigation}) => {
                     userId: item.senderId,
                   })
                 }>
-                <Text
-                  style={{
-                    fontSize: 13,
-                    fontFamily: 'Poppins-Regular',
-                    color: Colors.dark,
-                  }}>
-                  {item.title}
-                </Text>
+                <View
+                  style={{flexDirection: 'row', alignItems: 'center', flex: 1}}>
+                  <UserCircleIcon color={Colors.primary} size={36} />
+                  <Text
+                    style={{
+                      fontSize: 12,
+                      fontFamily: 'Poppins-Regular',
+                      color: Colors.dark,
+                      marginLeft: 10,
+                      flex: 1,
+                    }}>
+                    {item.title}
+                  </Text>
+                  {item.type == 'like' ? (
+                    <HeartIcon color={Colors.primary} size={18} />
+                  ) : item.type == 'reply' ? (
+                    <ChatBubbleOvalLeftIcon color={Colors.primary} size={18} />
+                  ) : item.type == 'request' ? (
+                    <UserPlusIcon color={Colors.primary} size={18} />
+                  ) : null}
+                </View>
+
                 {item.status === 'read' ? null : (
                   <View
                     style={{

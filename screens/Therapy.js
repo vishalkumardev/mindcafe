@@ -32,7 +32,6 @@ const Therapy = ({navigation}) => {
     setAppointment(data.response);
     if (data.response !== null) {
       data.response.map(value => {
-        console.log(value.status, value.feedback);
         if (value.status == 'pending') {
           setisValid(false);
         }

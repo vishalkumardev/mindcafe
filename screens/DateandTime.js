@@ -72,7 +72,6 @@ const DateandTime = ({navigation, route}) => {
       Global.BASE_URL + `calendar&psychologistId=${psychologistId}`,
     );
     const data = await response.json();
-    console.log(data.response);
     setData(data.response);
   };
 

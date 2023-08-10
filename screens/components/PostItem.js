@@ -162,7 +162,8 @@ const PostItem = ({item, index, userId, PostLike}) => {
             resizeMode="stretch"
             style={{
               width: '100%',
-              height: 300,
+              height: undefined,
+              aspectRatio: 1,
               marginBottom: 20,
               borderRadius: 10,
             }}

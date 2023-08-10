@@ -23,6 +23,8 @@ const UserProfile = ({navigation, route}) => {
   const [Post, setPost] = useState([]);
   const [Loading, setLoading] = useState(false);
   const [myId, setmyId] = useState('');
+  const [Add, setAdd] = useState(false);
+
   const getData = async () => {
     setLoading(true);
     const user = await AsyncStorage.getItem('Userid');
@@ -31,7 +33,6 @@ const UserProfile = ({navigation, route}) => {
       Global.BASE_URL + `myProfiles&userId=${userId}&friendId=${user}`,
     );
     const data = await response.json();
-    console.log(data);
     setData(data.response);
     setPost(data.response.myPost);
     setLoading(false);
@@ -48,8 +49,8 @@ const UserProfile = ({navigation, route}) => {
     const data = await response.json();
     if (data.response.status == 1) {
       ToastAndroid.show('Friend Request Sent', ToastAndroid.SHORT);
+      setAdd(true);
     }
-    getData();
   };
 
   const AcceptFriend = async () => {
@@ -161,13 +162,18 @@ const UserProfile = ({navigation, route}) => {
               {Data.friendStatus == 0 ? (
                 <View>
                   {Data.friendDetail == null ? (
-                    <TouchableOpacity style={styles.btn} onPress={Addfriend}>
+                    <TouchableOpacity
+                      style={styles.btn}
+                      onPress={Addfriend}
+                      disabled={Add}>
                       <PlusCircleIcon
                         color="#97667c"
                         size={20}
                         style={{marginRight: 5}}
                       />
-                      <Text style={styles.btn_text}>Add Friend</Text>
+                      <Text style={styles.btn_text}>
+                        {Add ? 'Pending' : 'Add Friend'}
+                      </Text>
                     </TouchableOpacity>
                   ) : (
                     <TouchableOpacity style={styles.btn} onPress={AcceptFriend}>

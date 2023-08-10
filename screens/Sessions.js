@@ -73,7 +73,7 @@ const Sessions = ({navigation}) => {
                 <TouchableOpacity
                   style={{
                     backgroundColor: '#fafafa',
-                    paddingVertical: 20,
+                    paddingVertical: 15,
                     paddingHorizontal: 15,
                     marginVertical: 10,
                     width: '95%',
@@ -91,7 +91,7 @@ const Sessions = ({navigation}) => {
                     }}>
                     <Text
                       style={{
-                        fontSize: 14,
+                        fontSize: 12,
                         fontWeight: '600',
                         fontFamily: 'Poppins-Regular',
                         flex: 1,
@@ -105,9 +105,9 @@ const Sessions = ({navigation}) => {
                         setSubContent(index + 1);
                       }}>
                       {Toggle && SubContent == index + 1 ? (
-                        <ChevronDoubleUpIcon color={'#97667c'} size={20} />
+                        <ChevronDoubleUpIcon color={'#97667c'} size={16} />
                       ) : (
-                        <ChevronDoubleDownIcon color={'#97667c'} size={20} />
+                        <ChevronDoubleDownIcon color={'#97667c'} size={16} />
                       )}
                     </TouchableOpacity>
                   </View>
@@ -122,7 +122,7 @@ const Sessions = ({navigation}) => {
                             justifyContent: 'space-between',
                             width: '95%',
                             marginVertical: 10,
-                            paddingVertical: 20,
+                            paddingVertical: 16,
                             paddingHorizontal: 15,
                             backgroundColor: '#FFF',
                             alignItems: 'center',
@@ -139,13 +139,13 @@ const Sessions = ({navigation}) => {
                           }>
                           <Text
                             style={{
-                              fontSize: 14,
+                              fontSize: 13,
                               fontFamily: 'Poppins-Regular',
                               color: Colors.dark,
                             }}>
                             {item.title}
                           </Text>
-                          <ArrowRightIcon color="#97667c" size={20} />
+                          <ArrowRightIcon color="#97667c" size={16} />
                         </TouchableOpacity>
                       )}
                     />

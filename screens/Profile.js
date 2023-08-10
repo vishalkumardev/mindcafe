@@ -349,7 +349,7 @@ const Profile = ({navigation}) => {
                   />
                   <Text
                     style={{
-                      fontSize: 16,
+                      fontSize: 13,
                       fontWeight: '500',
                       fontFamily: 'Poppins-Medium',
                       color: Colors.dark,

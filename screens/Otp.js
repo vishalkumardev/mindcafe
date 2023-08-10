@@ -29,7 +29,6 @@ const Otp = ({navigation, route}) => {
       const device = await OneSignal.getDeviceState();
 
       const player_id = device.userId;
-      console.log(player_id);
       const response = await fetch(
         Global.BASE_URL + `otpVerify&phone=${phone}&deviceId=${player_id}`,
         {

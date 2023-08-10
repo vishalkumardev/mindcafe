@@ -5,8 +5,9 @@ import {
   Image,
   Linking,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import {
   ArrowLeftOnRectangleIcon,
   BuildingStorefrontIcon,
@@ -18,6 +19,8 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Global from './utitiles/Global';
 import {Colors} from './utitiles/Colors';
+import {StackActions} from '@react-navigation/native';
+import {UserAuthContext} from './UserAuthContext';
 
 const Social = ({navigation}) => {
   const [ProfilePhotoUrl, setProfilePhotoUrl] = useState('');
@@ -25,6 +28,7 @@ const Social = ({navigation}) => {
   const [MobileNumber, setMobileNumber] = useState('');
   const [Email, setEmail] = useState('');
   const [Loading, setLoading] = useState(false);
+  const {getUser} = useContext(UserAuthContext);
 
   const getUserProfile = async () => {
     setLoading(true);
@@ -38,9 +42,25 @@ const Social = ({navigation}) => {
     setLoading(false);
   };
 
-  // const LogOut = () => {
-  //   navigation.navigate('Login');
-  // };
+  const LogOut = () => {
+    Alert.alert('Hold on!', 'Are you sure you want to go Logout ?', [
+      {
+        text: 'Cancel',
+        onPress: () => null,
+        style: 'cancel',
+      },
+      {
+        text: 'YES',
+        onPress: () => {
+          AsyncStorage.removeItem('Userid');
+          AsyncStorage.removeItem('UserName');
+          AsyncStorage.removeItem('type');
+          getUser();
+        },
+      },
+    ]);
+  };
+
   useEffect(() => {
     getUserProfile();
   }, []);
@@ -211,33 +231,31 @@ const Social = ({navigation}) => {
               </View>
               <ChevronRightIcon color={Colors.secondary} size={18} />
             </TouchableOpacity>
-          </View>
-          {/* 
-          <TouchableOpacity
-            style={{
-              backgroundColor: '#97667c',
-              paddingVertical: 10,
-              borderRadius: 5,
-              marginVertical: 10,
-              width: '37%',
-              alignSelf: 'center',
-              marginTop: 20,
-              flexDirection: 'row',
-              justifyContent: 'center',
-            }}
-            onPress={LogOut}>
-            <ArrowLeftOnRectangleIcon color="#fff" size={24} />
-            <Text
+            <TouchableOpacity
               style={{
-                textAlign: 'center',
-                fontSize: 14,
-                marginHorizontal: 10,
-                fontFamily: 'Poppins-Regular',
-                color: '#fff',
-              }}>
-              Logout
-            </Text>
-          </TouchableOpacity> */}
+                paddingVertical: 15,
+                borderRadius: 5,
+                paddingHorizontal: 15,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+              onPress={LogOut}>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <ArrowLeftOnRectangleIcon color={Colors.primary} size={30} />
+                <Text
+                  style={{
+                    fontSize: 14,
+                    fontFamily: 'Poppins-SemiBold',
+                    color: Colors.dark,
+                    marginLeft: 10,
+                  }}>
+                  Logout
+                </Text>
+              </View>
+              <ChevronRightIcon color={Colors.secondary} size={18} />
+            </TouchableOpacity>
+          </View>
         </View>
       )}
       <View

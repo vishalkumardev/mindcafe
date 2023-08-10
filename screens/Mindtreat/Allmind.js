@@ -22,7 +22,6 @@ const Allmind = ({navigation}) => {
     const data = await response.json();
     setCourses(data.allmind);
     setLoading(false);
-    console.log(data);
   };
 
   useEffect(() => {

@@ -12,9 +12,9 @@ import {
   ScrollView,
   TextInput,
   ToastAndroid,
+  ImageBackground,
 } from 'react-native';
 import {
-  ChevronDownIcon,
   UsersIcon,
   ListBulletIcon,
   BookOpenIcon,
@@ -22,7 +22,6 @@ import {
 } from 'react-native-heroicons/outline';
 import {LockClosedIcon, PlayIcon} from 'react-native-heroicons/solid';
 import RazorpayCheckout from 'react-native-razorpay';
-import * as Animatable from 'react-native-animatable';
 import Global from '../utitiles/Global';
 import {Colors} from '../utitiles/Colors';
 import {UserAuthContext} from '../UserAuthContext';
@@ -35,7 +34,6 @@ const CourseDetails = ({route, navigation}) => {
   const [Loading, setLoading] = useState(false);
   const [loading, setloading] = useState(false);
   const [User, setUser] = useState([]);
-  const [Image_height, setImage_height] = useState(0);
   const [userId, setuserId] = useState('');
   const [promo, setpromo] = useState('');
   const [Price, setPrice] = useState('');
@@ -235,23 +233,26 @@ const CourseDetails = ({route, navigation}) => {
           {Courses.cover == null ? (
             <></>
           ) : (
-            <View>
-              <Animatable.Image
-                source={{uri: Courses.cover}}
-                resizeMode="cover"
-                style={{width: '100%', height: 150 - Image_height}}
-                delay={3000}
-                animation="fadeIn"
-              />
+            <ImageBackground
+              source={{uri: Courses.cover}}
+              resizeMode="cover"
+              style={{
+                width: '100%',
+                height: 200,
+                resizeMode: 'cover',
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+              delay={3000}
+              animation="fadeIn">
               <TouchableOpacity
                 style={{
-                  position: 'absolute',
-                  right: 5,
-                  bottom: 5,
+                  alignSelf: 'center',
                   backgroundColor: '#fafafa',
-                  paddingHorizontal: 10,
-                  paddingVertical: 4,
-                  borderRadius: 20,
+                  paddingHorizontal: 15,
+                  paddingVertical: 7,
+                  borderRadius: 10,
                   flexDirection: 'row',
                   alignItems: 'center',
                 }}
@@ -261,17 +262,17 @@ const CourseDetails = ({route, navigation}) => {
                     id: 'false',
                   });
                 }}>
-                <PlayIcon color="#000" size={16} />
+                <PlayIcon color="#000" size={30} />
                 <Text
                   style={{
-                    fontSize: 10,
-                    fontFamily: 'Poppins-Regular',
+                    fontSize: 11,
+                    fontFamily: 'Poppins-SemiBold',
                     color: Colors.dark,
                   }}>
                   Watch Intro
                 </Text>
               </TouchableOpacity>
-            </View>
+            </ImageBackground>
           )}
 
           <View style={styles.box_icon}>
@@ -291,34 +292,29 @@ const CourseDetails = ({route, navigation}) => {
           {Courses.longDesc == null ? (
             <></>
           ) : (
-            <View style={styles.text_box}>
-              {Toggle ? (
-                <Text
-                  style={{
-                    width: '90%',
-                    textAlign: 'justify',
-                    fontSize: 13,
-                    fontFamily: 'Poppins-Regular',
-                    color: Colors.dark,
-                  }}>
-                  {Courses.longDesc.slice(0, 100)}....
-                </Text>
-              ) : (
-                <Text
-                  style={{
-                    width: '90%',
-                    textAlign: 'justify',
-                    fontSize: 13,
-                    fontFamily: 'Poppins-Regular',
-                    color: Colors.dark,
-                  }}>
-                  {Courses.longDesc}
-                </Text>
-              )}
+            <Text
+              style={{
+                width: '95%',
+                textAlign: 'justify',
+                fontSize: 13,
+                fontFamily: 'Poppins-Regular',
+                color: Colors.dark,
+                backgroundColor: Colors.light,
+                paddingHorizontal: 15,
+                alignSelf: 'center',
+                marginVertical: 10,
+                paddingVertical: 10,
+                borderRadius: 8,
+              }}>
+              {Toggle
+                ? Courses.longDesc + '   ' + '....'
+                : Courses.longDesc.slice(0, 100) + '   ' + '....'}
               <TouchableOpacity onPress={() => setToggle(!Toggle)}>
-                <ChevronDownIcon color="#97667C" size={16} />
+                <Text style={{top: 4, color: Colors.primary}}>
+                  {Toggle ? 'read less' : 'read more'}
+                </Text>
               </TouchableOpacity>
-            </View>
+            </Text>
           )}
           <Text style={styles.heading}>{Courses.title}</Text>
           {Data == null ? (
@@ -332,9 +328,6 @@ const CourseDetails = ({route, navigation}) => {
           ) : (
             <FlatList
               data={Data}
-              onScroll={e => {
-                setImage_height(e.nativeEvent.contentOffset.y.toFixed(0));
-              }}
               renderItem={({item, index}) => (
                 <CourseItem item={item} index={index} />
               )}
@@ -455,7 +448,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
   },
   text_box: {
-    width: '95%',
     alignSelf: 'center',
     marginVertical: 10,
     backgroundColor: '#fff',

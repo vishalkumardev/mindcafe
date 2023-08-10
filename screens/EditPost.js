@@ -13,7 +13,7 @@ import {
 import {PhotoIcon, XMarkIcon} from 'react-native-heroicons/solid';
 import {TrashIcon} from 'react-native-heroicons/outline';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-import RNFetchBlob from 'rn-fetch-blob';
+import axios from 'axios';
 import Global from './utitiles/Global';
 import {Colors} from './utitiles/Colors';
 
@@ -71,43 +71,32 @@ const EditPost = ({navigation, route}) => {
     },
   ]);
 
-  const Post = async () => {
-    if (Input.length < 10) {
-      Alert.alert('Please type Content ! ');
-    } else {
-      RNFetchBlob.fetch(
-        'POST',
-        'https://mindcafe.app/webservice/postMessage.php',
-        {
-          Authorization: 'Bearer access-token',
-          otherHeader: 'foo',
-          'Content-Type': 'multipart/form-data',
-        },
-        [
-          {
-            name: 'image',
-            filename: 'image.jpg',
-            type: 'image/jpg',
-            data: RNFetchBlob.wrap(Url),
-          },
-          {name: 'type', data: type},
-          {name: 'description', data: String(Input)},
-          {name: 'userId', data: userId},
-          {name: 'postId', data: String(item.postId)},
-        ],
-      )
-        .then(async resp => {
-          const data = await resp.json();
-          if (data.response.status == 1) {
-            Alert.alert('Post Upload Successfully');
-            navigation.navigate('Home');
-          }
-        })
-        .catch(err => {
-          Alert.alert('Something went wrong ');
-        });
-      navigation.goBack();
-    }
+  const Post = async e => {
+    e.preventDefault();
+    var bodyFormData = new FormData();
+    bodyFormData.append('type', type);
+    bodyFormData.append('content', Input);
+    bodyFormData.append('userId', userId);
+    bodyFormData.append('images', {
+      uri: Url,
+      type: 'image/jpeg',
+      name: `img-${Date.now()}.jpg`,
+    });
+    axios({
+      method: 'post',
+      url: `https://www.mindcafe.app/postMessage.php`,
+      data: bodyFormData,
+      headers: {'Content-Type': 'multipart/form-data'},
+    })
+      .then(function (response) {
+        if (response.data.status == 1) {
+          Alert.alert('Post Upload Successfully');
+          navigation.navigate('Home');
+        }
+      })
+      .catch(function (response) {
+        console.log(response);
+      });
   };
 
   const handleDelete = () => {

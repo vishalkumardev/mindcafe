@@ -27,7 +27,7 @@ const Main = () => {
           tabBarActiveTintColor: '#121A3A',
           tabBarLabelStyle: {
             fontSize: 10,
-            fontFamily: 'Poppins-SemiBold',
+            fontFamily: 'Poppins-Medium',
           },
         }}>
         <Tab.Screen
