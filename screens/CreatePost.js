@@ -15,8 +15,8 @@ import {PhotoIcon, XMarkIcon} from 'react-native-heroicons/solid';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import RNFetchBlob from 'rn-fetch-blob';
 import Global from './utitiles/Global';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
 import axios from 'axios';
+import {Colors} from './utitiles/Colors';
 
 const CreatePost = ({navigation}) => {
   const [Data, setData] = useState([]);
@@ -70,6 +70,7 @@ const CreatePost = ({navigation}) => {
 
   const Post = async e => {
     e.preventDefault();
+    setLoading(true);
     var bodyFormData = new FormData();
     bodyFormData.append('type', type);
     bodyFormData.append('content', Input);
@@ -94,6 +95,7 @@ const CreatePost = ({navigation}) => {
       .catch(function (response) {
         console.log(response);
       });
+    setLoading(false);
   };
 
   const ImagePicker = async () => {
@@ -197,7 +199,7 @@ const CreatePost = ({navigation}) => {
                 fontFamily: 'Poppins-Regular',
                 color: Colors.dark,
               }}
-              placeholderTextColor={Colors.dark}
+              placeholderTextColor={Colors.primary}
               multiline
               value={Input}
               onChangeText={setInput}

@@ -73,6 +73,7 @@ const EditPost = ({navigation, route}) => {
 
   const Post = async e => {
     e.preventDefault();
+    setLoading(true);
     var bodyFormData = new FormData();
     bodyFormData.append('type', type);
     bodyFormData.append('content', Input);
@@ -97,6 +98,7 @@ const EditPost = ({navigation, route}) => {
       .catch(function (response) {
         console.log(response);
       });
+    setLoading(false);
   };
 
   const handleDelete = () => {

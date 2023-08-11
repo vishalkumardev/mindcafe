@@ -4,20 +4,6 @@ import {View, StyleSheet, Image} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 
 const Splash = ({navigation}) => {
-  const getUser = async () => {
-    const user = await AsyncStorage.getItem('Userid');
-    if (user === '' || user === null || user === undefined) {
-      navigation.navigate('Onboarding');
-    } else {
-      navigation.navigate('Main');
-    }
-  };
-  useEffect(() => {
-    setTimeout(() => {
-      getUser();
-    }, 3000);
-  }, []);
-
   return (
     <View style={styles.Container}>
       <Animatable.Image

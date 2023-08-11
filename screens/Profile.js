@@ -31,7 +31,7 @@ import {
 import {launchImageLibrary} from 'react-native-image-picker';
 import RNFetchBlob from 'rn-fetch-blob';
 import Global from './utitiles/Global';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {Colors} from './utitiles/Colors';
 
 const Profile = ({navigation}) => {
   const [Data, setData] = useState([]);
@@ -315,7 +315,7 @@ const Profile = ({navigation}) => {
                 <TextInput
                   placeholder={`Hey ${Data.name} Start sharing Anonymously on this "Intentionally" Old-School Platform."`}
                   multiline
-                  placeholderTextColor={Colors.dark}
+                  placeholderTextColor={Colors.primary}
                   style={{flex: 1, color: Colors.dark}}
                   onPressIn={() => navigation.navigate('CreatePost')}
                 />

@@ -307,8 +307,8 @@ const CourseDetails = ({route, navigation}) => {
                 borderRadius: 8,
               }}>
               {Toggle
-                ? Courses.longDesc + '   ' + '....'
-                : Courses.longDesc.slice(0, 100) + '   ' + '....'}
+                ? Courses.longDesc + '   '
+                : Courses.longDesc.slice(0, 100) + '   '}
               <TouchableOpacity onPress={() => setToggle(!Toggle)}>
                 <Text style={{top: 4, color: Colors.primary}}>
                   {Toggle ? 'read less' : 'read more'}
