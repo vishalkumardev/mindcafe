@@ -306,19 +306,25 @@ const Profile = ({navigation}) => {
                   />
                 </TouchableOpacity>
               </View>
-              <View style={styles.input_container}>
-                <PlusCircleIcon
-                  color="#121A3A"
-                  size={24}
-                  style={styles.TextInput}
-                />
-                <TextInput
-                  placeholder={`Hey ${Data.name} Start sharing Anonymously on this "Intentionally" Old-School Platform."`}
-                  multiline
-                  placeholderTextColor={Colors.primary}
-                  style={{flex: 1, color: Colors.dark}}
-                  onPressIn={() => navigation.navigate('CreatePost')}
-                />
+              <View
+                style={{
+                  flex: 1,
+                  paddingHorizontal: 20,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  paddingVertical: 15,
+                }}>
+                <PlusCircleIcon color="#121A3A" size={24} />
+                <Text
+                  style={{
+                    color: Colors.dark,
+                    marginLeft: 10,
+                    textAlign: 'justify',
+                  }}>
+                  <Text style={{color: Colors.primary}}> Hey {Data.name}</Text>,
+                  Start sharing Anonymously on this "Intentionally" Old-School
+                  Platform.
+                </Text>
               </View>
             </View>
           </View>
@@ -700,15 +706,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontFamily: 'Poppins-SemiBold',
   },
-  input_container: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    padding: 5,
-    borderRadius: 15,
-    marginVertical: 0,
-  },
+
   form_container: {
     width: '90%',
   },

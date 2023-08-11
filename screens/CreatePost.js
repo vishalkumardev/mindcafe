@@ -195,11 +195,10 @@ const CreatePost = ({navigation}) => {
               style={{
                 paddingHorizontal: 20,
                 borderRadius: 10,
-                fontSize: 12,
-                fontFamily: 'Poppins-Regular',
+                fontSize: 14,
                 color: Colors.dark,
               }}
-              placeholderTextColor={Colors.primary}
+              placeholderTextColor={Colors.dark}
               multiline
               value={Input}
               onChangeText={setInput}
