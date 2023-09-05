@@ -348,7 +348,11 @@ const CourseDetails = ({route, navigation}) => {
                   paddingVertical: 15,
                   width: '100%',
                 }}
-                onPress={() => navigation.navigate('Sessions')}>
+                onPress={() =>
+                  navigation.navigate('Sessions', {
+                    id: id,
+                  })
+                }>
                 <Text style={styles.btn_text}>Continue to the Session</Text>
               </TouchableOpacity>
             </View>

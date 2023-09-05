@@ -15,7 +15,8 @@ import {
 import Global from './utitiles/Global';
 import {Colors} from './utitiles/Colors';
 
-const Sessions = ({navigation}) => {
+const Sessions = ({navigation, route}) => {
+  const {id} = route.params;
   const [Content, setContent] = useState([]);
   const [SubContent, setSubContent] = useState(0);
   const [Toggle, setToggle] = useState(false);
@@ -23,7 +24,9 @@ const Sessions = ({navigation}) => {
 
   const getData = async () => {
     setLoading(true);
-    const response = await fetch(Global.BASE_URL + `courseDetail&programId=1`);
+    const response = await fetch(
+      Global.BASE_URL + `courseDetail&programId=${id}`,
+    );
     const data = await response.json();
     setContent(data.response.content);
     setLoading(false);

@@ -80,6 +80,7 @@ const Qualification = ({navigation}) => {
             alignItems: 'center',
             backgroundColor: '#121A3A',
             justifyContent: 'center',
+            height: 60,
           }}>
           <Text
             style={{
@@ -87,6 +88,7 @@ const Qualification = ({navigation}) => {
               textAlign: 'center',
               color: '#fff',
               fontSize: 12,
+              width: '70%',
             }}>
             {item.expertName}
           </Text>
