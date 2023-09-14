@@ -4,13 +4,15 @@ import {
   StyleSheet,
   Text,
   View,
+  TouchableOpacity
 } from 'react-native';
 import React, {useState, useEffect, useContext} from 'react';
 import {UserAuthContext} from './UserAuthContext';
 import Global from './utitiles/Global';
 import {Colors} from './utitiles/Colors';
+import { DocumentArrowDownIcon } from 'react-native-heroicons/solid';
 
-const OrderHistory = () => {
+const OrderHistory = ({navigation}) => {
   const [Order, setOrder] = useState([]);
   const [Loading, setLoading] = useState(false);
   const {User} = useContext(UserAuthContext);
@@ -65,7 +67,7 @@ const OrderHistory = () => {
                       fontFamily: 'Poppins-Medium',
                     }}>
                     {' '}
-                    Order Id : {item.amount}
+                    Order Id : Mindcafe-00{item.orderId}
                   </Text>
                   <Text
                     style={{
@@ -85,6 +87,16 @@ const OrderHistory = () => {
                     {' '}
                     Program : {item.program}
                   </Text>
+
+                  <TouchableOpacity
+                    style={{position: 'absolute', bottom: 10, right: 10}}
+                    onPress={() =>
+                      navigation.navigate(`ProgressReport`, {
+                        url: item.invoice,
+                      })
+                    }>
+                    <DocumentArrowDownIcon color={Colors.secondary} size={20} />
+                  </TouchableOpacity>
                 </View>
               );
             }}

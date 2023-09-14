@@ -78,20 +78,17 @@ const EditPost = ({navigation, route}) => {
     bodyFormData.append('type', type);
     bodyFormData.append('content', Input);
     bodyFormData.append('userId', userId);
-    if (Url !== null) {
+    
+    if (Url !== "") {
       bodyFormData.append('images', {
         uri: Url,
         type: 'image/jpeg',
         name: `img-${Date.now()}.jpg`,
       });
-    } else {
-      bodyFormData.append('images', null);
-    }
-    console.log(bodyFormData)
-
+    } 
     axios({
       method: 'post',
-      url: `https://www.mindcafe.app/postMessage.php`,
+      url: `https://www.mindcafe.app/webservice/postMessage.php`,
       data: bodyFormData,
       headers: {'Content-Type': 'multipart/form-data'},
     })

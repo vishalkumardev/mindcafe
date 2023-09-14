@@ -56,7 +56,7 @@ const Allmind = ({navigation}) => {
               }}>
               <Image
                 source={{uri: item.expertImg}}
-                style={{borderRadius: 15, height: 30, width: 30}}
+                style={{borderRadius: 15, height: 30, width: 30,marginVertical:10, marginRight:10}}
               />
               <Text style={styles.author_name}>{item.expert}</Text>
             </View>
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
   },
   course_name: {
     fontSize: 14,
-    margin: 0,
+    marginTop: 5,
     fontWeight: '600',
     fontFamily: 'Poppins-Medium',
     color: Colors.dark,
@@ -142,8 +142,8 @@ const styles = StyleSheet.create({
   },
   course_session: {
     marginHorizontal: 10,
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: 14,
+    fontWeight: '400',
     fontFamily: 'Poppins-Medium',
     color: Colors.dark,
   },

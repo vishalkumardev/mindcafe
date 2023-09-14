@@ -56,25 +56,34 @@ const PostItem = ({item, index, userId, PostLike}) => {
   return (
     <View>
       <View style={styles.main_container}>
-        <View
+        <TouchableOpacity
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
+          }}
+          onPress={() => {
+            if (item.type !== 'anom') {
+              navigation.navigate('UserProfile', {
+                userId: item.userId,
+              });
+            }
           }}>
           <View style={styles.container_1}>
             {Data.profileImg == null || Data.type == 'anom' ? (
               <UserCircleIcon color="#A37589" size={32} />
             ) : (
-              <Image
-                source={{uri: Data.profileImg}}
-                style={{
-                  width: 36,
-                  height: 36,
-                  borderRadius: 18,
-                  resizeMode: 'center',
-                }}
-              />
+              <TouchableOpacity>
+                <Image
+                  source={{uri: Data.profileImg}}
+                  style={{
+                    width: 36,
+                    height: 36,
+                    borderRadius: 18,
+                    resizeMode: 'center',
+                  }}
+                />
+              </TouchableOpacity>
             )}
 
             <View style={styles.container_2}>
@@ -100,7 +109,7 @@ const PostItem = ({item, index, userId, PostLike}) => {
               <EllipsisVerticalIcon color="#97667c" size={24} />
             </TouchableOpacity>
           ) : null}
-        </View>
+        </TouchableOpacity>
 
         {Data.content == undefined ? null : (
           <View style={styles.container_3}>
@@ -305,7 +314,7 @@ const styles = StyleSheet.create({
     width: '95%',
     borderRadius: 20,
     backgroundColor: '#fff',
-    marginVertical: 10,
+    marginVertical: 5,
     padding: 10,
     shadowColor: '#0000',
     shadowOffset: {
@@ -350,15 +359,16 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   text_name: {
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: '500',
     color: '#A37589',
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: 'Poppins-Medium',
   },
   text_time: {
-    fontSize: 12,
-    fontWeight: '700',
-    color: '#e1e1e1',
+    fontSize: 10,
+    fontWeight: '300',
+    color: 'gray',
+    marginTop:-2,
     fontFamily: 'Poppins-Medium',
   },
   Courses_img: {

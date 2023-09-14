@@ -10,7 +10,11 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
-import {MagnifyingGlassIcon, PlusIcon} from 'react-native-heroicons/solid';
+import {
+  ChevronLeftIcon,
+  MagnifyingGlassIcon,
+  PlusIcon,
+} from 'react-native-heroicons/solid';
 import Global from './utitiles/Global';
 import {Colors} from './utitiles/Colors';
 
@@ -20,13 +24,15 @@ const Message = ({navigation}) => {
   const [Loading, setLoading] = useState(false);
 
   const handleSearch = text => {
-    if (text.length > 0) {
-      let templist = Data.filter(item => {
-        return item.name.toLowerCase().indexOf(text.toLowerCase()) > -1;
-      });
-      setData(templist);
-    } else {
-      setData(SearchData);
+    if (Data && Data.length !== 0) {
+      if (text.length > 0) {
+        let templist = Data.filter(item => {
+          return item.name.toLowerCase().indexOf(text.toLowerCase()) > -1;
+        });
+        setData(templist);
+      } else {
+        setData(SearchData);
+      }
     }
   };
 
@@ -45,7 +51,7 @@ const Message = ({navigation}) => {
     getData();
   }, []);
 
-  const Chatlist = ({item}) => {
+  const Chatlist = ({item, index}) => {
     return (
       <TouchableOpacity
         style={{
@@ -57,6 +63,7 @@ const Message = ({navigation}) => {
           borderRadius: 10,
           paddingVertical: 10,
           paddingHorizontal: 15,
+          marginBottom: Data.length == index + 1 ? 200 : 0,
         }}
         onPress={() =>
           navigation.navigate('Chatscreen', {
@@ -102,16 +109,30 @@ const Message = ({navigation}) => {
   };
   return (
     <View style={{flex: 1, backgroundColor: '#FFF'}}>
-      {Data == null ? null : (
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-around',
+          paddingTop: 10,
+        }}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+          }}
+          
+          style={{backgroundColor:Colors.lighdark ,padding:10,borderRadius:50}}
+          >
+          <ChevronLeftIcon color={Colors.primary} size={24} />
+        </TouchableOpacity>
         <View
           style={{
-            width: '90%',
+            width: '85%',
             alignSelf: 'center',
             backgroundColor: '#FAFAFA',
             justifyContent: 'flex-start',
             alignItems: 'center',
             flexDirection: 'row',
-            marginTop: 20,
             borderRadius: 25,
             paddingHorizontal: 15,
           }}>
@@ -131,8 +152,9 @@ const Message = ({navigation}) => {
             onChangeText={handleSearch}
           />
         </View>
-      )}
-      <View style={{width: '90%', alignSelf: 'center', marginTop: 10}}>
+      </View>
+
+      <View style={{width: '90%', alignSelf: 'center', marginTop: 0}}>
         <Text
           style={{
             fontSize: 16,
@@ -163,7 +185,9 @@ const Message = ({navigation}) => {
             ) : (
               <FlatList
                 data={Data}
-                renderItem={({item}) => <Chatlist item={item} />}
+                renderItem={({item, index}) => (
+                  <Chatlist item={item} index={index} />
+                )}
                 keyExtractor={item => item.id}
                 showsVerticalScrollIndicator={false}
               />

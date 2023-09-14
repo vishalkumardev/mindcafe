@@ -35,6 +35,7 @@ const UserProfile = ({navigation, route}) => {
     const data = await response.json();
     setData(data.response);
     setPost(data.response.myPost);
+    console.log(data);
     setLoading(false);
   };
 
@@ -43,13 +44,15 @@ const UserProfile = ({navigation, route}) => {
   }, []);
 
   const Addfriend = async () => {
-    const response = await fetch(
-      Global.BASE_URL + `addFriend&userId=${myId}&friendId=${userId}`,
-    );
-    const data = await response.json();
-    if (data.response.status == 1) {
-      ToastAndroid.show('Friend Request Sent', ToastAndroid.SHORT);
-      setAdd(true);
+    if (Data.friendDetail == null) {
+      const response = await fetch(
+        Global.BASE_URL + `addFriend&userId=${myId}&friendId=${userId}`,
+      );
+      const data = await response.json();
+      if (data.response.status == 1) {
+        ToastAndroid.show('Friend Request Sent', ToastAndroid.SHORT);
+        setAdd(true);
+      }
     }
   };
 
@@ -131,9 +134,9 @@ const UserProfile = ({navigation, route}) => {
             <View> </View>
           ) : (
             <Image
-              source={{uri: Data.cover}}
+              source={{uri: 'https://www.mindcafe.app/img/cover/profile.png'}}
               resizeMode="center"
-              style={{width: '100%', height: 110}}
+              style={{width: '100%', height: 110, resizeMode: 'cover'}}
             />
           )}
           <View style={styles.container_5}>
@@ -148,21 +151,7 @@ const UserProfile = ({navigation, route}) => {
                 />
               )}
 
-              {Data.friendDetail == null ? (
-                <TouchableOpacity
-                  style={styles.btn}
-                  onPress={Addfriend}
-                  disabled={Add}>
-                  <PlusCircleIcon
-                    color="#97667c"
-                    size={20}
-                    style={{marginRight: 5}}
-                  />
-                  <Text style={styles.btn_text}>
-                    {Add ? 'Pending' : 'Add Friend'}
-                  </Text>
-                </TouchableOpacity>
-              ) : (
+              {Data.friendDetail == 'FRIENDS' ? (
                 <TouchableOpacity
                   style={[styles.btn, {backgroundColor: '#fff'}]}
                   onPress={() =>
@@ -177,6 +166,20 @@ const UserProfile = ({navigation, route}) => {
                     size={18}
                     style={{marginLeft: 5}}
                   />
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  style={styles.btn}
+                  onPress={Addfriend}
+                  disabled={Add}>
+                  <PlusCircleIcon
+                    color="#97667c"
+                    size={20}
+                    style={{marginRight: 5}}
+                  />
+                  <Text style={styles.btn_text}>
+                    {Data.friendDetail == 'PENDING' ? 'Pending' : 'Add Friend'}
+                  </Text>
                 </TouchableOpacity>
               )}
             </View>

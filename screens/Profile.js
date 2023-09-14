@@ -33,6 +33,7 @@ import RNFetchBlob from 'rn-fetch-blob';
 import Global from './utitiles/Global';
 import {Colors} from './utitiles/Colors';
 import {UserAuthContext} from './UserAuthContext';
+import axios from 'axios';
 
 const Profile = ({navigation}) => {
   const [Data, setData] = useState([]);
@@ -77,43 +78,43 @@ const Profile = ({navigation}) => {
     getFriend();
   }, []);
 
-  const Updateprofie = async () => {
+  const Updateprofie = async e => {
+    e.preventDefault();
     if (Name.length <= 3) {
       Alert.alert('Please type Valid Name');
     } else if (MobileNumber.length <= 2) {
       Alert.alert('Please type Valid Mobile Number');
     } else {
-      RNFetchBlob.fetch(
-        'POST',
-        'https://mindcafe.app/webservice/updateProfile.php',
-        {
-          Authorization: 'Bearer access-token',
-          otherHeader: 'foo',
-          'Content-Type': 'multipart/form-data',
-        },
-        [
-          {
-            name: 'image',
-            filename: 'image.jpg',
-            type: 'image/jpg',
-            data: RNFetchBlob.wrap(ProfilePhotoUrl),
-          },
-          {name: 'name', data: Name},
-          {name: 'phone', data: String(MobileNumber)},
-          {name: 'userId', data: userId},
-        ],
-      )
-        .then(async resp => {
-          const data = await resp.json();
-          if (data.response.status == 1) {
-            Alert.alert('Profile Updated Successfully');
-            navigation.navigate('Profile');
-          }
-        })
-        .catch(err => {
-          Alert.alert('Something went wrong ');
+      setLoading(true);
+      var bodyFormData = new FormData();
+      bodyFormData.append('name', Name);
+      bodyFormData.append('phone', MobileNumber);
+      bodyFormData.append('userId', userId);
+
+      if (Data.img !== ProfilePhotoUrl) {
+        bodyFormData.append('images', {
+          uri: ProfilePhotoUrl,
+          type: 'image/jpeg',
+          name: `img-${Date.now()}.jpg`,
         });
+      }
     }
+    axios({
+      method: 'post',
+      url: `https://www.mindcafe.app/webservice/updateProfile.php`,
+      data: bodyFormData,
+      headers: {'Content-Type': 'multipart/form-data'},
+    })
+      .then(function (response) {
+        if (response.data.status == true) {
+          Alert.alert('Profile Updated Successfully');
+          navigation.navigate('Profile');
+        }
+      })
+      .catch(function (response) {
+        console.log(response);
+      });
+    setLoading(false);
   };
 
   const ProfileImagePicker = async () => {
@@ -252,6 +253,13 @@ const Profile = ({navigation}) => {
               </TouchableOpacity>
             </View>
             <View style={styles.container_7}>
+           
+              <Text style={styles.profile_name}>{Data.name}</Text>
+              <TouchableOpacity onPress={() => setConnection(true)}>
+                <Text style={styles.profile_connection}>
+                  {Data.connection} Connection
+                </Text>
+              </TouchableOpacity>
               {UserType == 'employee' ? (
                 <Text
                   style={{
@@ -259,15 +267,9 @@ const Profile = ({navigation}) => {
                     color: Colors.dark,
                     fontSize: 12,
                   }}>
-                  Employee Id : {userId}
+                  Employee ID : 000{Data.employeeId}
                 </Text>
               ) : null}
-              <Text style={styles.profile_name}>{Data.name}</Text>
-              <TouchableOpacity onPress={() => setConnection(true)}>
-                <Text style={styles.profile_connection}>
-                  {Data.connection} Connection
-                </Text>
-              </TouchableOpacity>
               <View
                 style={{
                   flexDirection: 'row',

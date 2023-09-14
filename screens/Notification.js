@@ -40,10 +40,9 @@ const Notification = ({navigation}) => {
     getNotification();
   }, []);
 
-  const AcceptFriend = async (status, friendId) => {
+  const AcceptFriend = async (status, friendId, notificationId) => {
     const response = await fetch(
-      Global.BASE_URL +
-        `updateFriendStatus&userId=${myId}&friendId=${friendId}&status=${status}`,
+      `https://www.mindcafe.app/webservice/activity.php?method=updateFriendStatus&userId=${myId}&senderId=${friendId}&status=${status}&notificationId=${notificationId}`,
     );
     const data = await response.json();
     if (data.response.status == 1) {
@@ -88,6 +87,8 @@ const Notification = ({navigation}) => {
       ) : (
         <FlatList
           data={Data}
+          style={{marginBottom: 70}}
+          showsVerticalScrollIndicator={false}
           ListEmptyComponent={
             <View>
               <Text
@@ -114,11 +115,13 @@ const Notification = ({navigation}) => {
                   alignSelf: 'center',
                   borderRadius: 5,
                 }}
-                onPress={() =>
-                  navigation.navigate('UserProfile', {
-                    userId: item.senderId,
-                  })
-                }>
+                onPress={() => {
+                  if (item.typeComment == 'name') {
+                    navigation.navigate('UserProfile', {
+                      userId: item.senderId,
+                    });
+                  }
+                }}>
                 <View>
                   <View
                     style={{
@@ -153,8 +156,8 @@ const Notification = ({navigation}) => {
                     <View
                       style={{
                         backgroundColor: '#97667c',
-                        width: 10,
-                        height: 10,
+                        width: 5,
+                        height: 5,
                         borderRadius: 5,
                       }}></View>
                   )}
@@ -178,7 +181,13 @@ const Notification = ({navigation}) => {
                         borderRadius: 5,
                         marginTop: 10,
                       }}
-                      onPress={() => AcceptFriend('accept', item.senderId)}>
+                      onPress={() =>
+                        AcceptFriend(
+                          'accept',
+                          item.senderId,
+                          item.notificationId,
+                        )
+                      }>
                       <Text
                         style={{
                           fontFamily: 'Poppins-Medium',
@@ -197,7 +206,13 @@ const Notification = ({navigation}) => {
                         borderRadius: 5,
                         marginTop: 10,
                       }}
-                      onPress={() => AcceptFriend('reject', item.senderId)}>
+                      onPress={() =>
+                        AcceptFriend(
+                          'reject',
+                          item.senderId,
+                          item.notificationId,
+                        )
+                      }>
                       <Text
                         style={{
                           fontFamily: 'Poppins-Medium',

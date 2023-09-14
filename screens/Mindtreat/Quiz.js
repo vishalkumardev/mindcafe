@@ -19,7 +19,7 @@ const {width, height} = Dimensions.get('window');
 
 const Quiz = ({navigation, route}) => {
   const {id} = route.params;
-  console.log(id)
+  console.log(id);
   const [Data, setData] = useState([]);
   const [Loading, setLoading] = useState(false);
   const [CurrentIndex, setCurrentIndex] = useState(1);
@@ -73,9 +73,7 @@ const Quiz = ({navigation, route}) => {
   };
   const getData = async () => {
     setLoading(true);
-    const response = await fetch(
-      Global.BASE_URL + `quiz&subContentId=${id}`,
-    );
+    const response = await fetch(Global.BASE_URL + `quiz&subContentId=${id}`);
     const data = await response.json();
     setData(data.response);
     setLoading(false);
@@ -235,6 +233,10 @@ const Quiz = ({navigation, route}) => {
                   onPress={() => {
                     setAnsToggle(true);
                     setToggle(false);
+                    ListRef.current.scrollToIndex({
+                      animated: true,
+                      index: 0,
+                    });
                   }}>
                   View Answer
                 </Text>
@@ -249,6 +251,7 @@ const Quiz = ({navigation, route}) => {
                   }}
                   onPress={() => {
                     setToggle(!Toggle);
+                    navigation.goBack();
                   }}>
                   <Text style={{color: '#fff', fontSize: 16}}>Close</Text>
                 </TouchableOpacity>
