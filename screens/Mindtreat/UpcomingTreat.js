@@ -33,6 +33,7 @@ const UpcomingTreat = ({navigation}) => {
             navigation.navigate('CourseDetails', {
               id: item.programId,
               name: item.title,
+              upcoming:1
             })
           }>
           <Image
@@ -48,7 +49,6 @@ const UpcomingTreat = ({navigation}) => {
               fontFamily: 'Poppins-Medium',
               marginTop: 10,
               width: '100%',
-              textAlign: 'justify',
               color: Colors.dark,
             }}>
             {item.title}
@@ -69,9 +69,10 @@ const UpcomingTreat = ({navigation}) => {
               navigation.navigate('CourseDetails', {
                 id: item.programId,
                 name: item.title,
+                upcoming:1
               })
             }>
-            <Text style={styles.btn_text}>Upcoming</Text>
+            <Text style={styles.btn_text}>Know More</Text>
           </TouchableOpacity>
         </View>
       </View>

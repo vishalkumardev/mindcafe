@@ -25,6 +25,8 @@ const Content = ({route, navigation}) => {
       navigation.goBack();
     }
   };
+
+  console.log(typeof description)
   return (
     <>
       <ScrollView style={{flex: 1, paddingHorizontal: 15, marginVertical: 15}}>

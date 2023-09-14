@@ -65,7 +65,7 @@ const Login = ({navigation}) => {
           Resend(data.response.phone);
         }
       } else {
-        Alert.alert('User Not Registered');
+        Alert.alert('Invalid Login');
       }
     }
   };

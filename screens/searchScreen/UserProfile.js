@@ -53,17 +53,6 @@ const UserProfile = ({navigation, route}) => {
     }
   };
 
-  const AcceptFriend = async () => {
-    const response = await fetch(
-      Global.BASE_URL +
-        `updateFriendStatus&userId=${myId}&friendId=${userId}&status="accept"`,
-    );
-    const data = await response.json();
-    if (data.response.status == 1) {
-      ToastAndroid.show('Accepted', ToastAndroid.SHORT);
-    }
-    getData();
-  };
   const PostItem = ({item}) => {
     return (
       <View style={styles.main_container}>
@@ -159,33 +148,20 @@ const UserProfile = ({navigation, route}) => {
                 />
               )}
 
-              {Data.friendStatus == 0 ? (
-                <View>
-                  {Data.friendDetail == null ? (
-                    <TouchableOpacity
-                      style={styles.btn}
-                      onPress={Addfriend}
-                      disabled={Add}>
-                      <PlusCircleIcon
-                        color="#97667c"
-                        size={20}
-                        style={{marginRight: 5}}
-                      />
-                      <Text style={styles.btn_text}>
-                        {Add ? 'Pending' : 'Add Friend'}
-                      </Text>
-                    </TouchableOpacity>
-                  ) : (
-                    <TouchableOpacity style={styles.btn} onPress={AcceptFriend}>
-                      <PlusCircleIcon
-                        color="#97667c"
-                        size={20}
-                        style={{marginRight: 5}}
-                      />
-                      <Text style={styles.btn_text}>Accept</Text>
-                    </TouchableOpacity>
-                  )}
-                </View>
+              {Data.friendDetail == null ? (
+                <TouchableOpacity
+                  style={styles.btn}
+                  onPress={Addfriend}
+                  disabled={Add}>
+                  <PlusCircleIcon
+                    color="#97667c"
+                    size={20}
+                    style={{marginRight: 5}}
+                  />
+                  <Text style={styles.btn_text}>
+                    {Add ? 'Pending' : 'Add Friend'}
+                  </Text>
+                </TouchableOpacity>
               ) : (
                 <TouchableOpacity
                   style={[styles.btn, {backgroundColor: '#fff'}]}

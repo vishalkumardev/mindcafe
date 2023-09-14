@@ -36,6 +36,7 @@ const Allmind = ({navigation}) => {
             navigation.navigate('CourseDetails', {
               id: item.programId,
               name: item.title,
+              upcoming:0
             })
           }>
           <Image
@@ -70,6 +71,7 @@ const Allmind = ({navigation}) => {
               navigation.navigate('CourseDetails', {
                 id: item.programId,
                 name: item.title,
+                upcoming:0
               })
             }>
             <Text style={styles.btn_text}>Start Mind Treat</Text>

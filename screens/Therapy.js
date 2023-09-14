@@ -16,7 +16,7 @@ import {DocumentArrowDownIcon} from 'react-native-heroicons/outline';
 
 const Therapy = ({navigation}) => {
   const isFocused = useIsFocused();
-
+  const [Package, setpackage] = useState(false);
   const [Data, setData] = useState('');
   const [Appointment, setAppointment] = useState([]);
   const [User, setUser] = useState('');
@@ -29,6 +29,7 @@ const Therapy = ({navigation}) => {
     );
     const data = await response.json();
     setData(data);
+    setpackage(data.packageStatus == 1 ? true : false)
     setAppointment(data.response);
     if (data.response !== null) {
       data.response.map(value => {
@@ -42,7 +43,9 @@ const Therapy = ({navigation}) => {
     }
   };
   const bookAppointment = () => {
-    if (isValid == true) {
+    if (!Package) {
+      Alert.alert('Package Expired');
+    } else if (isValid == true) {
       navigation.navigate('Booking', {
         psychologistId: Data.psychologistId,
       });

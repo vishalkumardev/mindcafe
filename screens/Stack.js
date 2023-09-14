@@ -28,6 +28,8 @@ import Message from './Message';
 import ProgressReport from './ProgressReport';
 import Forgot from './Forgot';
 import {NavigationContainer} from '@react-navigation/native';
+import OrderHistory from './OrderHistory';
+
 
 const Stack = () => {
   const Stack = createNativeStackNavigator();
@@ -175,6 +177,7 @@ const Stack = () => {
             />
 
             <Stack.Screen name="Sessions" component={Sessions} />
+            <Stack.Screen name="OrderHistory" component={OrderHistory} />
             <Stack.Screen name="Content" component={Content} />
             <Stack.Screen name="Quiz" component={Quiz} />
             <Stack.Screen name="Video" component={Video} />

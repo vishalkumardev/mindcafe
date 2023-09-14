@@ -33,6 +33,7 @@ const Mymind = ({navigation}) => {
             navigation.navigate('CourseDetails', {
               id: item.programId,
               name: item.title,
+              upcoming:0
             })
           }>
           <Image
@@ -84,6 +85,7 @@ const Mymind = ({navigation}) => {
                 id: item.programId,
                 name: item.title,
                 check: item.checkSubscription,
+                upcoming:0
               })
             }>
             <Text style={styles.btn_text}>Continue</Text>

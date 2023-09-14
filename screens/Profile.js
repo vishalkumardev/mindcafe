@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   View,
   StyleSheet,
@@ -32,6 +32,7 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import RNFetchBlob from 'rn-fetch-blob';
 import Global from './utitiles/Global';
 import {Colors} from './utitiles/Colors';
+import {UserAuthContext} from './UserAuthContext';
 
 const Profile = ({navigation}) => {
   const [Data, setData] = useState([]);
@@ -45,7 +46,7 @@ const Profile = ({navigation}) => {
   const [Connection, setConnection] = useState(false);
   const [Friend, setFriend] = useState([]);
   const [SearchData, setSearchData] = useState([]);
-
+  const {UserType} = useContext(UserAuthContext);
   const [userId, setuserId] = useState('');
   const getUserProfile = async () => {
     setLoading(true);
@@ -76,22 +77,6 @@ const Profile = ({navigation}) => {
     getFriend();
   }, []);
 
-  const CoverImagePicker = async () => {
-    let options = {
-      saveToPhotos: true,
-      mediaType: 'photo',
-    };
-
-    const granted = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.CAMERA,
-    );
-
-    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-      const result = await launchImageLibrary(options);
-      setcoverPhotoUrl(result.assets[0].uri);
-    }
-  };
-
   const Updateprofie = async () => {
     if (Name.length <= 3) {
       Alert.alert('Please type Valid Name');
@@ -112,12 +97,6 @@ const Profile = ({navigation}) => {
             filename: 'image.jpg',
             type: 'image/jpg',
             data: RNFetchBlob.wrap(ProfilePhotoUrl),
-          },
-          {
-            name: 'cover',
-            filename: 'image.jpg',
-            type: 'image/jpg',
-            data: RNFetchBlob.wrap(coverPhotoUrl),
           },
           {name: 'name', data: Name},
           {name: 'phone', data: String(MobileNumber)},
@@ -250,9 +229,9 @@ const Profile = ({navigation}) => {
             <View> </View>
           ) : (
             <Image
-              source={{uri: Data.cover}}
+              source={{uri: 'https://www.mindcafe.app/img/cover/profile.png'}}
               resizeMode="center"
-              style={{width: '100%', height: 110}}
+              style={{width: '100%', height: 110, resizeMode: 'cover'}}
             />
           )}
           <View style={styles.container_5}>
@@ -273,6 +252,16 @@ const Profile = ({navigation}) => {
               </TouchableOpacity>
             </View>
             <View style={styles.container_7}>
+              {UserType == 'employee' ? (
+                <Text
+                  style={{
+                    fontFamily: 'Poppins-Regular',
+                    color: Colors.dark,
+                    fontSize: 12,
+                  }}>
+                  Employee Id : {userId}
+                </Text>
+              ) : null}
               <Text style={styles.profile_name}>{Data.name}</Text>
               <TouchableOpacity onPress={() => setConnection(true)}>
                 <Text style={styles.profile_connection}>
@@ -509,52 +498,32 @@ const Profile = ({navigation}) => {
               onPress={() => setToggle(false)}
             />
           </View>
-          <View>
-            <Image
-              source={{uri: coverPhotoUrl == '' ? Data.cover : coverPhotoUrl}}
-              resizeMode="center"
-              style={{width: '100%', height: 120, backgroundColor: '#fafafa'}}
-            />
-            <TouchableOpacity
-              style={{
-                position: 'absolute',
-                bottom: 0,
-                right: 15,
-                backgroundColor: '#fff',
-                padding: 5,
-                borderRadius: 2,
-              }}
-              onPress={CoverImagePicker}>
-              <CameraIcon color="#000" size={25} />
-            </TouchableOpacity>
-          </View>
 
           <View style={styles.container_5}>
-            <View style={styles.container_6}>
-              <View>
-                <Image
-                  source={{
-                    uri: ProfilePhotoUrl == '' ? Data.img : ProfilePhotoUrl,
-                  }}
-                  resizeMode="contain"
+            <View style={{marginVertical: 20, alignSelf: 'center'}}>
+              <Image
+                source={{
+                  uri: ProfilePhotoUrl == '' ? Data.img : ProfilePhotoUrl,
+                }}
+                resizeMode="contain"
+                style={{
+                  width: 72,
+                  height: 72,
+                  borderRadius: 36,
+                  backgroundColor: '#f0f0f0',
+                }}
+              />
+              <TouchableOpacity onPress={ProfileImagePicker}>
+                <Text
                   style={{
-                    width: 72,
-                    height: 72,
-                    borderRadius: 36,
-                    backgroundColor: '#f0f0f0',
-                  }}
-                />
-                <TouchableOpacity onPress={ProfileImagePicker}>
-                  <Text
-                    style={{
-                      color: '#97667c',
-                      marginTop: 10,
-                    }}>
-                    Select Image
-                  </Text>
-                </TouchableOpacity>
-              </View>
+                    color: '#97667c',
+                    marginTop: 10,
+                  }}>
+                  Select Image
+                </Text>
+              </TouchableOpacity>
             </View>
+
             <KeyboardAvoidingView
               style={{width: '90%', alignSelf: 'center'}}
               behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>

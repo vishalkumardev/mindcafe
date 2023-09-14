@@ -19,6 +19,7 @@ const {width, height} = Dimensions.get('window');
 
 const Quiz = ({navigation, route}) => {
   const {id} = route.params;
+  console.log(id)
   const [Data, setData] = useState([]);
   const [Loading, setLoading] = useState(false);
   const [CurrentIndex, setCurrentIndex] = useState(1);
@@ -73,7 +74,7 @@ const Quiz = ({navigation, route}) => {
   const getData = async () => {
     setLoading(true);
     const response = await fetch(
-      Global.BASE_URL + `subContentId=${id}&method=quiz`,
+      Global.BASE_URL + `quiz&subContentId=${id}`,
     );
     const data = await response.json();
     setData(data.response);

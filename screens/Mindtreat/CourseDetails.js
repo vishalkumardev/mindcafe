@@ -27,8 +27,8 @@ import {Colors} from '../utitiles/Colors';
 import {UserAuthContext} from '../UserAuthContext';
 
 const CourseDetails = ({route, navigation}) => {
-  const {id, check} = route.params;
-  const [Toggle, setToggle] = useState(true);
+  const {id, check,upcoming} = route.params;
+  const [Toggle, setToggle] = useState(false);
   const [Courses, setCourses] = useState({});
   const [Data, setData] = useState([]);
   const [Loading, setLoading] = useState(false);
@@ -307,8 +307,8 @@ const CourseDetails = ({route, navigation}) => {
                 borderRadius: 8,
               }}>
               {Toggle
-                ? Courses.longDesc + '   '
-                : Courses.longDesc.slice(0, 100) + '   '}
+                ? Courses.longDesc.trim() + '   '
+                : Courses.longDesc.slice(0, 100).trim() + '   '}
               <TouchableOpacity onPress={() => setToggle(!Toggle)}>
                 <Text style={{top: 4, color: Colors.primary}}>
                   {Toggle ? 'read less' : 'read more'}
@@ -338,7 +338,7 @@ const CourseDetails = ({route, navigation}) => {
         </ScrollView>
       )}
 
-      {loading ? null : (
+      {loading || upcoming == 1 ? null : (
         <View>
           {Suscribe == true ? (
             <View>

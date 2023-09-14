@@ -10,6 +10,7 @@ import {
 import React, {useEffect, useState, useContext} from 'react';
 import {
   ArrowLeftOnRectangleIcon,
+  ArrowPathIcon,
   BuildingStorefrontIcon,
   ChevronRightIcon,
   PencilSquareIcon,
@@ -131,6 +132,30 @@ const Social = ({navigation}) => {
               paddingHorizontal: 10,
               borderRadius: 15,
             }}>
+            <TouchableOpacity
+              style={{
+                paddingVertical: 15,
+                borderRadius: 5,
+                paddingHorizontal: 15,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+              onPress={() => navigation.navigate('OrderHistory')}>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <ArrowPathIcon color={Colors.primary} size={30} />
+                <Text
+                  style={{
+                    fontSize: 14,
+                    fontFamily: 'Poppins-SemiBold',
+                    color: Colors.dark,
+                    marginLeft: 10,
+                  }}>
+                  Order History
+                </Text>
+              </View>
+              <ChevronRightIcon color={Colors.secondary} size={18} />
+            </TouchableOpacity>
             <TouchableOpacity
               style={{
                 paddingVertical: 15,
